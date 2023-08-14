@@ -17,8 +17,21 @@
 				"type": "constructor"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address payable",
+						"name": "_userAddress",
+						"type": "address"
+					}
+				],
+				"name": "addUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
-				"name": "getLoyaltyTokenBalance",
+				"name": "burnable",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -27,6 +40,24 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_userAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "issueTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -37,19 +68,6 @@
 						"internalType": "contract LoyaltyToken",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "loyaltyTokensBalance",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -71,8 +89,8 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address payable",
-						"name": "vendorcontract",
+						"internalType": "address",
+						"name": "user",
 						"type": "address"
 					},
 					{
@@ -81,7 +99,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "transferTokens",
+				"name": "spendTokens",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -89,14 +107,20 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "userMapping",
+				"outputs": [
+					{
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "",
 						"type": "uint256"
 					}
 				],
-				"name": "withdrawTokens",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -160,19 +184,27 @@
 			]
 		},
 		"dao-grid/contracts/LoyaltyToken.sol": {
-			"keccak256": "0x4e435a8b8a03add8e051c190adeab9c8868ecd2f05f830e0c53aac388195aef2",
+			"keccak256": "0x1964eb3fcedfe779a4cd578947a3a87cb9ad1d1ae56665b6f547d1a959cbbec0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://69686866b30eccc14ded1998e1d8785c41c0bd96966ea18f12ae0c0744ebb3a6",
-				"dweb:/ipfs/QmZm1K7mxhwPeYdw9JcXe5kect8YYukTstz8urid27dqbR"
+				"bzz-raw://687ca4cc9c1aca28893d536fc6ccc09b1118c9e510b83d7aca590e4eb6f9cd2d",
+				"dweb:/ipfs/QmSV3o4d2KTLqS7kRiezH8HfABMN7jhjEqRg7fwcWNPvup"
 			]
 		},
 		"dao-grid/contracts/UserInteraction.sol": {
-			"keccak256": "0x728e466ce9be904de4dd92d966d7582612e3a0b4fba254cd64b75f92086f1a07",
+			"keccak256": "0xf26599e29b940f83ca7a5715c46edaad62d3f4ce85c9ff2b484d3a13ad1e1abd",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a3f1d1fa9092e6419a69e0adecd67220fd94c045e8c012319dd9b0cc2f241cdf",
-				"dweb:/ipfs/QmVNu1BJZKMen9y14WuSHZx4PETVCs9W2Xd2p4q9vBZQjU"
+				"bzz-raw://1104c01cce70458f4b4f2a8463bac90fcc2539285d4fcb251df4a06c951b6a53",
+				"dweb:/ipfs/QmXurR8imgYsotChgq9hNpn3CdpNzf8cUBW1FKChtUMd76"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
+				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
 			]
 		}
 	},

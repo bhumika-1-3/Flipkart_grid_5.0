@@ -1,0 +1,273 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_loyaltyTokenAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum VendorContract.Tier",
+						"name": "_vendorTier",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_maxPurchases",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "_vendorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_balance",
+						"type": "uint256"
+					}
+				],
+				"name": "addVendor",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vendorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_userAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "issueTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "loyaltyToken",
+				"outputs": [
+					{
+						"internalType": "contract LoyaltyToken",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vendorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_maxPurchases",
+						"type": "uint256"
+					}
+				],
+				"name": "setMaxPurchases",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_userContractAddress",
+						"type": "address"
+					}
+				],
+				"name": "setUserContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_vendorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "enum VendorContract.Tier",
+						"name": "_vendorTier",
+						"type": "uint8"
+					}
+				],
+				"name": "setVendorTier",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "userContract",
+				"outputs": [
+					{
+						"internalType": "contract UserContract",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "vendorMapping",
+				"outputs": [
+					{
+						"internalType": "enum VendorContract.Tier",
+						"name": "vendorTier",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "maxPurchases",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "loyaltyTokensBalance",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"dao-grid/contracts/TwoContracts/VendorContract.sol": "VendorContract"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
+			"keccak256": "0xa56ca923f70c1748830700250b19c61b70db9a683516dc5e216694a50445d99c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cac938788bc4be12101e59d45588b4e059579f4e61062e1cda8d6b06c0191b15",
+				"dweb:/ipfs/QmV2JKCyjTVH3rkWNrfdJRhAT7tZ3usAN2XcnD4h53Mvih"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bd39944e8fc06be6dbe2dd1d8449b5336e23c6a7ba3e8e9ae5ae0f37f35283f5",
+				"dweb:/ipfs/QmPV3FGYjVwvKSgAXKUN3r9T9GwniZz83CxBpM7vyj2G53"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
+			"keccak256": "0x8de418a5503946cabe331f35fe242d3201a73f67f77aaeb7110acb1f30423aca",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5a376d3dda2cb70536c0a45c208b29b34ac560c4cb4f513a42079f96ba47d2dd",
+				"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92",
+				"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3"
+			]
+		},
+		"dao-grid/contracts/LoyaltyToken.sol": {
+			"keccak256": "0x061794c5ba3c2ee8ef95b76a967faee8db7b0fa35d3f8a51e3f0cae0032bcdeb",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cc29b0be19c809702bbc95ea0747ce96c8a85003b9b7902e74a97311f51fc973",
+				"dweb:/ipfs/Qmc7WcfihjQ1smv7UvFUMT8wqkGxtXJHZxSxkEJW3yfYsZ"
+			]
+		},
+		"dao-grid/contracts/TwoContracts/UserContract.sol": {
+			"keccak256": "0xa81e6a5d3b4afcc345c801482ec5ec23b33211a3561eb4aa9ab92e0a259afb8b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fb2c8d1e5d72d4ec1ba1203bf344e6c4541ad72c7cb3df27e6e6a4cf1f577683",
+				"dweb:/ipfs/QmNSm9wGG9atcb54KmnvUK1c4rHX4sjHsdKPa3tCTUdNaP"
+			]
+		},
+		"dao-grid/contracts/TwoContracts/VendorContract.sol": {
+			"keccak256": "0x8947e7718cc864c7aca9a599ba0f926e5ba1bbe30cb4090eb5a8e258c6e7a1b9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c8f3b482a14c88e09ea1f87025dfbfb9953bca662c83d900b62b535b7b609d07",
+				"dweb:/ipfs/QmXQgRBpqhej8ZeaEXTVwYt1BTrJa8LxuivLFyEDjcWJmc"
+			]
+		}
+	},
+	"version": 1
+}

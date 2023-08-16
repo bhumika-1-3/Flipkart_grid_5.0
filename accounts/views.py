@@ -2,7 +2,6 @@ from multiprocessing import AuthenticationError
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from rest_framework import (mixins, generics, status, permissions)
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http.response import HttpResponse, JsonResponse
 import jwt
@@ -23,7 +22,15 @@ from decouple import config
 # Create your views here.
 
 from .utils import Util
-from accounts.serializers import UserSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer,SetNewPasswordSerializer, LogoutSerializer
+from accounts.serializers import (
+    UserSerializer,
+    EmailVerificationSerializer,
+    LoginSerializer,
+    ResetPasswordEmailRequestSerializer,
+    SetNewPasswordSerializer,
+    LogoutSerializer,
+    VendorProfileSerializer
+)
 
 User = get_user_model()
 owner_address = config('OWNER_ADDRESS')
@@ -57,12 +64,12 @@ class VerifyEmail(APIView):
             if not user.is_verified:
                 user.verified = True
                 user.active = True
-            if not user.vendor:
-                try:
-                    Util.send_transaction(web3, userContract, 'addUser', chain_id, owner_address, owner_private_key, user.address)
-                except Exception as e:
-                    print(e)
-                    return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
+                if not user.vendor:
+                    try:
+                        Util.send_transaction(web3, userContract, 'addUser', chain_id, owner_address, owner_private_key, user.address)
+                    except Exception as e:
+                        return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
+            user.save()
             return JsonResponse({'status': 'Email Successfully Verified'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)
@@ -130,3 +137,24 @@ class LogoutAPIView(generics.GenericAPIView):
         serializer.save()
 
         return Response({'message':'Logged out successfully'},status=status.HTTP_204_NO_CONTENT)
+    
+#Vendor APIs
+class VendorProfileAPI(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
+    serializer_class = VendorProfileSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = VendorProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            if not request.user.vendor:
+                return JsonResponse({'error': 'User is not a vendor'}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                vendor = serializer.save_vendor(serializer.data)
+                #write logic here for token calculation
+                token = 100
+                Util.send_transaction(web3, vendorContract, 'addVendor', chain_id, owner_address, owner_private_key, vendor.vendor_tier, vendor.max_purchases, vendor.user.address, token)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

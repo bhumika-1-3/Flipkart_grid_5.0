@@ -12,8 +12,7 @@ from django.urls import reverse
 from .utils import Util
 from django.conf import settings
 
-
-
+from .models import VendorProfile
 
 User = get_user_model()
 
@@ -40,6 +39,29 @@ class UserSerializer(serializers.ModelSerializer):
         data ={'email_body': email_body, 'email_subject': "Verify your Email",'to_email':user.email}
         Util.send_email(data)
         return token
+    
+class VendorProfileSerializer(serializers.ModelSerializer):
+    
+    user = serializers.EmailField()
+    class Meta:
+        model = VendorProfile
+        fields = ['user', 'vendor_tier', 'max_purchases', 'gst_number']
+    
+    
+    def save_vendor(self, validated_data):
+        user = User.objects.get(email=validated_data.get('user'))
+        if user.vendor:
+            #write logic here for tier
+            vendor = VendorProfile.objects.create(
+                                    user=user,
+                                    vendor_tier=validated_data.get('vendor_tier'),
+                                    max_purchases=validated_data.get('max_purchases'),
+                                    gst_number=validated_data.get('gst_number')
+                                    )
+            vendor.save()
+            return vendor
+        else:
+            raise serializers.ValidationError("User is not a vendor")
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
@@ -57,7 +79,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=User
-        fields = ['email', 'password', 'tokens', 'vendor', 'address']
+        fields = ['email', 'password', 'tokens']
 
     def validate(self, attrs):
 

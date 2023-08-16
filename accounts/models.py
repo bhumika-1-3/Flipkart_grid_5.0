@@ -104,3 +104,13 @@ class User(AbstractBaseUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+class VendorProfile(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    vendor_tier = models.PositiveIntegerField(default=1)
+    max_purchases = models.PositiveIntegerField(default=1)
+    gst_number = models.CharField(max_length=15, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.firstname + " " + self.user.lastname

@@ -1,11 +1,21 @@
 from django.urls import path
-from .views import SignUp, Login, VerifyEmail, LogoutAPIView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView
+from .views import (
+    SignUp,
+    Login,
+    VerifyEmail,
+    LogoutAPIView,
+    RequestPasswordResetEmail,
+    PasswordTokenCheckAPI,
+    SetNewPasswordAPIView,
+    VendorProfileAPI
+)
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path('signup/', SignUp.as_view(), name='Signup'),
     path('email-verify/', VerifyEmail.as_view(), name="EmailVerification"),
     path('login/', Login.as_view(), name="Login"),
+    path('vendor-profile/', VendorProfileAPI.as_view(), name="VendorProfile"),
     path('logout/', LogoutAPIView.as_view(), name="logout"),
     path('token-refresh/',TokenRefreshView.as_view(),name="RefreshToken"),
     path('request-reset-email/', RequestPasswordResetEmail.as_view(),name="request-reset-email"),

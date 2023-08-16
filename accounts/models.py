@@ -64,6 +64,7 @@ class User(AbstractBaseUser):
     staff       = models.BooleanField(default=False)
     admin       = models.BooleanField(default=False)
     vendor      = models.BooleanField(default=False)
+    address     = models.CharField(max_length=255, blank=True, null=True)
     
 
     USERNAME_FIELD = 'email'

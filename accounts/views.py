@@ -17,6 +17,8 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode
 
+from backend.settings import loyaltyToken, vendorContract, userContract, web3
+from decouple import config
 
 # Create your views here.
 
@@ -24,6 +26,9 @@ from .utils import Util
 from accounts.serializers import UserSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailRequestSerializer,SetNewPasswordSerializer, LogoutSerializer
 
 User = get_user_model()
+owner_address = config('OWNER_ADDRESS')
+owner_private_key = config('OWNER_PRIVATE_KEY')
+chain_id = config('CHAIN_ID')
 
 class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     
@@ -32,13 +37,7 @@ class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPI
     def post(self, request, *args, **kwargs):
         serializer1 = UserSerializer(data=request.data)
         if serializer1.is_valid():
-            user_data = serializer1.save_user(serializer1.data)
-            token = RefreshToken.for_user(user_data).access_token
-            relative_link = reverse('EmailVerification')
-            abs_url = settings.FRONT_END_HOST + relative_link + "user-id=" + str(token)
-            email_body = "Hiii"+ user_data.firstname + " " + user_data.lastname + "! Use link below to verify your email \n"+ abs_url
-            data ={'email_body': email_body, 'email_subject': "Verify your Email",'to_email':user_data.email}
-            Util.send_email(data)
+            token = serializer1.save_user(serializer1.data)
             return JsonResponse({'status': 'created', 'token': str(token)}, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,7 +57,12 @@ class VerifyEmail(APIView):
             if not user.is_verified:
                 user.verified = True
                 user.active = True
-                user.save()
+            if not user.vendor:
+                try:
+                    Util.send_transaction(web3, userContract, 'addUser', chain_id, owner_address, owner_private_key, user.address)
+                except Exception as e:
+                    print(e)
+                    return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
             return JsonResponse({'status': 'Email Successfully Verified'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)

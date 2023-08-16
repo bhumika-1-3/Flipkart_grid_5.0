@@ -21,18 +21,25 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'firstname', 'lastname', 'vendor']
+        fields = ['email', 'password', 'firstname', 'lastname', 'vendor', 'address']
     
     def save_user(self, validated_data):
         user = User.objects.create_user( 
                                 password=validated_data.get('password'), 
                                 email=validated_data.get('email'),
                                 firstname=validated_data.get('firstname'),
-                                lastname=validated_data.get('lastname'),
-                                vendor=validated_data.get('vendor')
+                                lastname=validated_data.get('lastname')
                                 )
+        user.vendor = validated_data.get('vendor')
+        user.address = validated_data.get('address')
         user.save()
-        return user
+        token = RefreshToken.for_user(user).access_token
+        relative_link = reverse('EmailVerification')
+        abs_url = settings.FRONT_END_HOST + relative_link + "user-id=" + str(token)
+        email_body = "Hiii"+ user.firstname + " " + user.lastname + "! Use link below to verify your email \n"+ abs_url
+        data ={'email_body': email_body, 'email_subject': "Verify your Email",'to_email':user.email}
+        Util.send_email(data)
+        return token
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
@@ -50,7 +57,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=User
-        fields = ['email', 'password', 'tokens', 'vendor']
+        fields = ['email', 'password', 'tokens', 'vendor', 'address']
 
     def validate(self, attrs):
 
@@ -71,6 +78,7 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             'email': auth_user.email,
             'vendor': auth_user.vendor,
+            'address': auth_user.address,
             'refresh': str(tokens),
             'access': str(tokens.access_token)
         }

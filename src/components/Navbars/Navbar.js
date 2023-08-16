@@ -10,7 +10,7 @@ import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import RenderIf from "../RenderIf/RenderIf"
 import Confetti from 'react-confetti'
-// import WheelComponent from 'react-wheel-of-prizes'
+import WheelComponent from 'react-wheel-of-prizes'
 
 export default function Navbar() {
 	var width = 1200, height = 800;
@@ -157,8 +157,9 @@ export default function Navbar() {
 								leaveFrom="opacity-100 translate-y-0 sm:scale-100"
 								leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 							>
-								<Dialog.Panel className="transform justify-center align-middle rounded-lg text-center shadow-xl transition-all ">
-									{/* <WheelComponent
+								{/* className="transform justify-center align-middle rounded-lg text-center shadow-xl transition-all " */}
+								<Dialog.Panel style={{marginLeft:'25%',marginTop:'5%'}}>
+									<WheelComponent style={{margin:'200px'}}
 										segments={segments}
 										segColors={segColors}
 										onFinished={(winner) => onFinished(winner)}
@@ -170,7 +171,7 @@ export default function Navbar() {
 										upDuration={500}
 										downDuration={600}
 										fontFamily="Arial"
-									/> */}
+									/>
 								</Dialog.Panel>
 							</Transition.Child>
 						</div>
@@ -178,8 +179,9 @@ export default function Navbar() {
 				</Dialog>
 			</Transition.Root>
 			{confetti &&
-				<div className="fixed inset-0 z-20">
-					<Confetti
+			// className="fixed inset-0 z-20"
+				<div >
+					<Confetti style={{marginLeft:'1%',marginTop:'3%'}}
 						width={width}
 						height={height}
 					/>

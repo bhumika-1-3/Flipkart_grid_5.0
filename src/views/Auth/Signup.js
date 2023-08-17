@@ -48,14 +48,13 @@ export default function Signup() {
   });
 
   const navigate = useNavigate();
-  const [haveMetamask, sethaveMetamask] = useState(true);
+  const [haveMetamask, sethaveMetamask] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
   const [pan, setPan] = useState(true);
   const panNumber = useRef(null);
   const { ethereum } = window;
   const [accountBalance, setAccountBalance] = useState("");
   const [isConnected, setIsConnected] = useState(false);
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const verify = (event) => {
     event.preventDefault();
@@ -109,11 +108,14 @@ export default function Signup() {
   useEffect(() => {
     const { ethereum } = window;
     const checkMetamaskAvailability = async () => {
-      if (!ethereum) {
+      if (ethereum == undefined) {
         sethaveMetamask(false);
       }
-      sethaveMetamask(true);
-      connectMetamask();
+      else {
+        sethaveMetamask(true);
+      }
+      if (ethereum)
+        connectMetamask();
 
     };
     console.log(haveMetamask);
@@ -128,6 +130,7 @@ export default function Signup() {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       let balance = await provider.getBalance(accounts[0]);
       let bal = ethers.utils.formatEther(balance);
       setAccountAddress(accounts[0]);
@@ -434,7 +437,7 @@ export default function Signup() {
           className="bg-purple-600 hover:bg-purple-700 flex items-center justify-center text-white active:bg-blueGray-600 text-lg font-base px-6 py-2 rounded-xl shadow outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
           type="submit"
           disabled={!pan}
-          onClick={loginHandler}
+          onClick={signupHandler}
         >
           <HiOutlineLogin className="mr-2 h-6 w-6" />
           Sign Up

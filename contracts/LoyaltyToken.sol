@@ -5,8 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract LoyaltyToken is ERC20{
     address payable public owner;
-    address public vendorContract;
-    address public userContract;
+    address public factoryContract;
 
     constructor() ERC20("Flip Coins", "FC"){
         owner = payable(msg.sender);
@@ -18,23 +17,19 @@ contract LoyaltyToken is ERC20{
     }
 
     modifier onlyAuthorized() {
-        require(msg.sender == owner || msg.sender == vendorContract || msg.sender == userContract, "Only the authorized can perform this action");
+        require(msg.sender == owner || msg.sender == factoryContract, "Only the authorized can perform this action");
         _;
     }
 
-    function setVendorContractAddress(address payable _vendorContractAddress) public onlyOwner {
-        vendorContract = _vendorContractAddress;
+    function setFactoryContractAddress(address payable _factoryContractAddress) public {
+        factoryContract = _factoryContractAddress;
     }
 
-    function setUserContractAddress(address payable _userContractAddress) public onlyOwner {
-        userContract = _userContractAddress;
-    }
-
-    function mintForUser(address user, uint256 amount) public onlyAuthorized {
+    function mintForUser(address user, uint256 amount) public {
         _mint(user, amount * 10**18);
     }
 
-    function burn(address user, uint256 amount) public onlyAuthorized {
+    function burn(address user, uint256 amount) public {
         _burn(user, amount * 10**18);
     }
 

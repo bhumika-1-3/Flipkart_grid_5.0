@@ -34,7 +34,7 @@ contract VendorContract {
     }
 
     modifier onlyVendor(address _vendorAddress) {
-        require(msg.sender == _vendorAddress, "Only the vendor can perform this action");
+        require(msg.sender == _vendorAddress || msg.sender == owner, "Only the vendor can perform this action");
         _;
     }
 

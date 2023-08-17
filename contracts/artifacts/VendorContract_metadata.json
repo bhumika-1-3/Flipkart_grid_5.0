@@ -6,60 +6,21 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_loyaltyTokenAddress",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address payable",
-						"name": "_userAddress",
-						"type": "address"
-					}
-				],
-				"name": "addUser",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "enum VendorContract.Tier",
-						"name": "_vendorTier",
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "version",
 						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_maxPurchases",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address payable",
-						"name": "_vendorAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_balance",
-						"type": "uint256"
 					}
 				],
-				"name": "addVendor",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
+				"name": "Initialized",
+				"type": "event"
 			},
 			{
 				"inputs": [],
-				"name": "burnable",
+				"name": "getBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -74,7 +35,35 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_userAddress",
+						"name": "_ownerAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_loyaltyTokenAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_maxPurchases",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_balance",
+						"type": "uint256"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_userContractAddress",
 						"type": "address"
 					},
 					{
@@ -117,11 +106,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_vendorAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_maxPurchases",
 						"type": "uint256"
@@ -135,11 +119,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_vendorAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "enum VendorContract.Tier",
 						"name": "_vendorTier",
 						"type": "uint8"
@@ -149,98 +128,14 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "spendTokens",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "vendor",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "transferTokens",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "userMapping",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "vendorMapping",
-				"outputs": [
-					{
-						"internalType": "enum VendorContract.Tier",
-						"name": "vendorTier",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "maxPurchases",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "loyaltyTokensBalance",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
+			"events": {
+				"Initialized(uint8)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
+				}
+			},
 			"kind": "dev",
 			"methods": {},
 			"version": 1
@@ -267,6 +162,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/proxy/utils/Initializable.sol": {
+			"keccak256": "0x3d6069be9b4c01fb81840fb9c2c4dc58dd6a6a4aafaa2c6837de8699574d84c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://720d6bb56ea0c4ef781c0bd65c5bd0541f5a46100163b2587170f97658d2deed",
+				"dweb:/ipfs/QmTS2biLVPrv8CeeXCaKmkFxonMiRvc1LxiYBRYDAJHQUS"
+			]
+		},
 		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
 			"keccak256": "0xa56ca923f70c1748830700250b19c61b70db9a683516dc5e216694a50445d99c",
 			"license": "MIT",
@@ -291,6 +194,14 @@
 				"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8"
 			]
 		},
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931",
+				"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm"
+			]
+		},
 		"@openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
 			"license": "MIT",
@@ -300,27 +211,27 @@
 			]
 		},
 		"dao-grid/contracts/LoyaltyToken.sol": {
-			"keccak256": "0x2782b93be1cb985b1355bc311c84e9ddb2882ae2f91016990196ee9a9a99648c",
+			"keccak256": "0x7062db39041aa88c9dd24c35234aabfae4b42746b1346361e973def751c01e34",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1748556284a4589b5d3cd4dcc9c630824987826e68580a024edf58012da36ee0",
-				"dweb:/ipfs/QmfP4XG6B6W2PtdUTmJkWc77YffDSmmyfgY3VkWRD6ECxN"
+				"bzz-raw://fd3635e3e19d0bc46bbc624be721ff65bf41d17118e70a40a919aa8828bee482",
+				"dweb:/ipfs/QmPLJunvpNyAhXosMXXko4eLRqetpJRSvsGhz4sBu3R4nJ"
+			]
+		},
+		"dao-grid/contracts/UserContract.sol": {
+			"keccak256": "0xfa650096ffdb3d7bf715bb25c33d0e1041ab2408f44a572a4b4d071f6163b2b0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://90b64122634e845e533c02376fdff4fcae5dc6490e003101409f04266b02b2f4",
+				"dweb:/ipfs/QmRNof43PhUaipps9X7PaTEjskYDeT5sJv7J2VbHyK83uS"
 			]
 		},
 		"dao-grid/contracts/VendorContract.sol": {
-			"keccak256": "0x9054ba357725f1241d91932e591bfe944f566e4570c7d9e71f752f2a90f1807a",
+			"keccak256": "0x46eaebfad798c90734967f9187af038a62ec89d2e82a6e15bc9a48ce677cf62d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://37aae453d6390e036dab55b44071537e2f2e9d183f88f72d79555d24358f7a82",
-				"dweb:/ipfs/QmfDG2bvFDPcpnAP1JtX8RHZffY2xKzHWinMQ4UgL3v6Fe"
-			]
-		},
-		"hardhat/console.sol": {
-			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
-				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
+				"bzz-raw://e3b0740445067541ccbebec506c5344dc59cd46491ffd0a231bbaa6b1b0e952f",
+				"dweb:/ipfs/QmZnRdynbV48fYy8R2WtKoWcbt7cf5C59Mj3Jba3rcLkTf"
 			]
 		}
 	},

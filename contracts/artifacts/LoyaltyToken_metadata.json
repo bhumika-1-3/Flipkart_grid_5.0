@@ -183,6 +183,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "factoryContract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -254,24 +267,11 @@
 				"inputs": [
 					{
 						"internalType": "address payable",
-						"name": "_userContractAddress",
+						"name": "_factoryContractAddress",
 						"type": "address"
 					}
 				],
-				"name": "setUserContractAddress",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address payable",
-						"name": "_vendorContractAddress",
-						"type": "address"
-					}
-				],
-				"name": "setVendorContractAddress",
+				"name": "setFactoryContractAddress",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -353,32 +353,6 @@
 					}
 				],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "userContract",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "vendorContract",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -484,11 +458,11 @@
 			]
 		},
 		"dao-grid/contracts/LoyaltyToken.sol": {
-			"keccak256": "0x061794c5ba3c2ee8ef95b76a967faee8db7b0fa35d3f8a51e3f0cae0032bcdeb",
+			"keccak256": "0x7062db39041aa88c9dd24c35234aabfae4b42746b1346361e973def751c01e34",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cc29b0be19c809702bbc95ea0747ce96c8a85003b9b7902e74a97311f51fc973",
-				"dweb:/ipfs/Qmc7WcfihjQ1smv7UvFUMT8wqkGxtXJHZxSxkEJW3yfYsZ"
+				"bzz-raw://fd3635e3e19d0bc46bbc624be721ff65bf41d17118e70a40a919aa8828bee482",
+				"dweb:/ipfs/QmPLJunvpNyAhXosMXXko4eLRqetpJRSvsGhz4sBu3R4nJ"
 			]
 		}
 	},

@@ -6,32 +6,21 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_loyaltyTokenAddress",
-						"type": "address"
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "version",
+						"type": "uint8"
 					}
 				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address payable",
-						"name": "_userAddress",
-						"type": "address"
-					}
-				],
-				"name": "addUser",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
+				"name": "Initialized",
+				"type": "event"
 			},
 			{
 				"inputs": [],
-				"name": "burnable",
+				"name": "getBalance",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -46,16 +35,11 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "_userAddress",
+						"name": "_loyaltyTokenAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
 					}
 				],
-				"name": "issueTokens",
+				"name": "initialize",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -89,11 +73,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
@@ -103,28 +82,14 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "userMapping",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			}
 		],
 		"devdoc": {
+			"events": {
+				"Initialized(uint8)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
+				}
+			},
 			"kind": "dev",
 			"methods": {},
 			"version": 1
@@ -137,7 +102,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"dao-grid/contracts/UserInteraction.sol": "UserContract"
+			"dao-grid/contracts/UserContract.sol": "UserContract"
 		},
 		"evmVersion": "paris",
 		"libraries": {},
@@ -151,6 +116,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/proxy/utils/Initializable.sol": {
+			"keccak256": "0x3d6069be9b4c01fb81840fb9c2c4dc58dd6a6a4aafaa2c6837de8699574d84c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://720d6bb56ea0c4ef781c0bd65c5bd0541f5a46100163b2587170f97658d2deed",
+				"dweb:/ipfs/QmTS2biLVPrv8CeeXCaKmkFxonMiRvc1LxiYBRYDAJHQUS"
+			]
+		},
 		"@openzeppelin/contracts/token/ERC20/ERC20.sol": {
 			"keccak256": "0xa56ca923f70c1748830700250b19c61b70db9a683516dc5e216694a50445d99c",
 			"license": "MIT",
@@ -175,6 +148,14 @@
 				"dweb:/ipfs/QmZQg6gn1sUpM8wHzwNvSnihumUCAhxD119MpXeKp8B9s8"
 			]
 		},
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931",
+				"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm"
+			]
+		},
 		"@openzeppelin/contracts/utils/Context.sol": {
 			"keccak256": "0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7",
 			"license": "MIT",
@@ -184,27 +165,27 @@
 			]
 		},
 		"dao-grid/contracts/LoyaltyToken.sol": {
-			"keccak256": "0x1964eb3fcedfe779a4cd578947a3a87cb9ad1d1ae56665b6f547d1a959cbbec0",
+			"keccak256": "0x7062db39041aa88c9dd24c35234aabfae4b42746b1346361e973def751c01e34",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://687ca4cc9c1aca28893d536fc6ccc09b1118c9e510b83d7aca590e4eb6f9cd2d",
-				"dweb:/ipfs/QmSV3o4d2KTLqS7kRiezH8HfABMN7jhjEqRg7fwcWNPvup"
+				"bzz-raw://fd3635e3e19d0bc46bbc624be721ff65bf41d17118e70a40a919aa8828bee482",
+				"dweb:/ipfs/QmPLJunvpNyAhXosMXXko4eLRqetpJRSvsGhz4sBu3R4nJ"
 			]
 		},
-		"dao-grid/contracts/UserInteraction.sol": {
-			"keccak256": "0xf26599e29b940f83ca7a5715c46edaad62d3f4ce85c9ff2b484d3a13ad1e1abd",
+		"dao-grid/contracts/UserContract.sol": {
+			"keccak256": "0x8f1e886ba0097ab35d9ce159bf79e197faa415c916d043ec8f8545eeee7556c7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://1104c01cce70458f4b4f2a8463bac90fcc2539285d4fcb251df4a06c951b6a53",
-				"dweb:/ipfs/QmXurR8imgYsotChgq9hNpn3CdpNzf8cUBW1FKChtUMd76"
+				"bzz-raw://32aa3c706d4e2a803b414e764b1dec4c05090c9c5cb2feed7207b0982bd7410c",
+				"dweb:/ipfs/QmVszZADd3h7JdKxepMR9Kj8c91U1jH9FVKZFdA5LnHRhm"
 			]
 		},
-		"hardhat/console.sol": {
-			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
+		"dao-grid/contracts/VendorContract.sol": {
+			"keccak256": "0x83836b82be1ff5d50922f57f6ea0d605da1ae4db7fa2c139733fc5ca8771c3b3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
-				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
+				"bzz-raw://249a09e63b9f94e53c0da5bf3c9e12051d6e8611089d0a0c3d1e1f3cb8aefd6d",
+				"dweb:/ipfs/QmapZ6URmu7SFJDXVUT8GepSAfPKEkqLXwprzUZ1dTjDJQ"
 			]
 		}
 	},

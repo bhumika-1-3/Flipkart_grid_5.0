@@ -13,6 +13,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "react-toastify/dist/ReactToastify.css";
 import { login, toastReset, setRole } from "../../store/slices/auth/authSlice";
 import axios from "axios";
+import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -47,9 +48,15 @@ export default function Signup() {
   });
 
   const navigate = useNavigate();
-
+  const [haveMetamask, sethaveMetamask] = useState(true);
+  const [accountAddress, setAccountAddress] = useState("");
   const [pan, setPan] = useState(true);
   const panNumber = useRef(null);
+  const { ethereum } = window;
+  const [accountBalance, setAccountBalance] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
   const verify = (event) => {
     event.preventDefault();
     const options = {
@@ -64,8 +71,9 @@ export default function Signup() {
         "task_id": "74f4c926-250c-43ca-9c53-453e87ceacd1",
         "group_id": "8e16424a-58fc-4ba4-ab20-5bc8e7c3c41e",
         "data": {
-            "id_number": panNumber.current.value
-        }}
+          "id_number": panNumber.current.value
+        }
+      }
     };
     axios
       .request(options)
@@ -98,6 +106,39 @@ export default function Signup() {
       });
   };
 
+  useEffect(() => {
+    const { ethereum } = window;
+    const checkMetamaskAvailability = async () => {
+      if (!ethereum) {
+        sethaveMetamask(false);
+      }
+      sethaveMetamask(true);
+      connectMetamask();
+
+    };
+    console.log(haveMetamask);
+    checkMetamaskAvailability();
+  }, []);
+
+  const connectMetamask = async () => {
+    try {
+      if (!ethereum) {
+        sethaveMetamask(false);
+      }
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      let balance = await provider.getBalance(accounts[0]);
+      let bal = ethers.utils.formatEther(balance);
+      setAccountAddress(accounts[0]);
+      setAccountBalance(bal);
+      setIsConnected(true);
+
+      console.log(accounts[0]);
+    } catch (error) {
+      setIsConnected(false);
+    }
+  };
   // var captcha = "";
   const { success, showToast, message, isAuthenticated, role } = useSelector(
     (state) => state.auth
@@ -182,6 +223,20 @@ export default function Signup() {
 
   const signupHandler = (e) => {
     e.preventDefault();
+
+    if (!isConnected) {
+      toast.error("Please Connect to Metamask", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     if (!userInput.email.includes("@")) {
       alert("Enter a valid email address!");
       return;
@@ -208,11 +263,11 @@ export default function Signup() {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        navigate("/admin/dashboard/")
+        navigate("/vendor/profile")
       })
       .catch(function (error) {
         console.log(error);
-        navigate("/admin/dashboard/")
+        navigate("/vendor/profile")
       });
 
   };

@@ -21,6 +21,10 @@ import Products from "./Page/Vendor/Products"
 import ErrorPage from "./Page/Auth/ErrorPage"
 import ProductList from "./Page/Customer/ProductList"
 import Customer_dashboard from "./Page/Customer/Customer_dashboard"
+import AddProduct from "./Page/Vendor/AddProduct"
+import ProfileVendor from "./Page/Vendor/ProfileVendor"
+import SupercoinsRules from "./Page/Vendor/SupercoinsRules"
+import Analysis from "./Page/Vendor/Analysis"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -49,9 +53,25 @@ function App() {
 			errorElement: <ErrorPage />,
 			children: [
 				{
+					element: <ProfileVendor />,
+					path: "profile",
+				},
+				{
 					element: <Products />,
 					path: "products",
 				},
+				{
+					element: <AddProduct />,
+					path: "addproduct",
+				},
+				{
+					element: <SupercoinsRules />,
+					path: "rules",
+				},
+				{
+					element: <Analysis />,
+					path: "analysis",
+				}
 			]
 		},
 		{

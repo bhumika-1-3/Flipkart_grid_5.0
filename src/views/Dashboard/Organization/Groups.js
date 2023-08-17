@@ -25,37 +25,38 @@ import TableData from "./TableData";
 import { Fragment } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { AiOutlineCloseCircle, AiOutlineStar } from "react-icons/ai"
+import { useNavigate } from "react-router-dom";
 
 const product = {
-    name: 'Basic Tee 6-Pack ',
-    price: '$192',
-    rating: 3.9,
-    reviewCount: 117,
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg',
-    imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
-    colors: [
-        { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
-        { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
-        { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
-    ],
-    sizes: [
-        { name: 'XXS', inStock: true },
-        { name: 'XS', inStock: true },
-        { name: 'S', inStock: true },
-        { name: 'M', inStock: true },
-        { name: 'L', inStock: true },
-        { name: 'XL', inStock: true },
-        { name: 'XXL', inStock: true },
-        { name: 'XXXL', inStock: false },
-    ],
+  name: 'Basic Tee 6-Pack ',
+  price: '$192',
+  rating: 3.9,
+  reviewCount: 117,
+  href: '#',
+  imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg',
+  imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
+  colors: [
+    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+    { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
+    { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' },
+  ],
+  sizes: [
+    { name: 'XXS', inStock: true },
+    { name: 'XS', inStock: true },
+    { name: 'S', inStock: true },
+    { name: 'M', inStock: true },
+    { name: 'L', inStock: true },
+    { name: 'XL', inStock: true },
+    { name: 'XXL', inStock: true },
+    { name: 'XXXL', inStock: false },
+  ],
 }
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ')
 }
 
-   
+
 const Groups = (props) => {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
@@ -176,7 +177,7 @@ const Groups = (props) => {
     setName("");
     setPeople("");
   };
-
+  const navigate = useNavigate();
   return (
     <div>
       <div className="flex justify-between pb-5">
@@ -188,7 +189,9 @@ const Groups = (props) => {
             title="Add new coupon"
             className="float-right"
             activator={({ setShow }) => (
-              <Button Icon={HiPlusCircle} onClick={() => setShow(true)}>
+              <Button Icon={HiPlusCircle} onClick={() => {
+                navigate("/vendor/addproduct")
+              }}>
                 Add
               </Button>
             )}
@@ -316,7 +319,9 @@ const Groups = (props) => {
                 <Td><center>{i.supercoins_earned}</center></Td>
                 <Td>
 
-                  <Button children="Restock" restock={true} Icon={MdOutlineAddShoppingCart} className="bg-green-500"></Button>
+                  <Button children="Restock" onClick={()=>{
+                    navigate("/vendor/addproduct")
+                  }} restock={true} Icon={MdOutlineAddShoppingCart} className="bg-green-500"></Button>
                   <Button onClick={() => setOpen(!open)} children="View" view={true} Icon={AiOutlineEye} className="bg-green-500"></Button>
                   <Button children="Delete" danger={true} Icon={AiOutlineDelete} className="bg-green-500"></Button>
                 </Td>

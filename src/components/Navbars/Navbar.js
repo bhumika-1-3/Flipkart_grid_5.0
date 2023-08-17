@@ -158,8 +158,8 @@ export default function Navbar() {
 								leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 							>
 								{/* className="transform justify-center align-middle rounded-lg text-center shadow-xl transition-all " */}
-								<Dialog.Panel style={{marginLeft:'25%',marginTop:'5%'}}>
-									<WheelComponent style={{margin:'200px'}}
+								<Dialog.Panel className="transform justify-center bg-slate-200 align-middle rounded-lg text-center shadow-xl transition-all " style={{ marginLeft: '25%', marginTop: '5%' }}>
+									<WheelComponent style={{ margin: '200px' }}
 										segments={segments}
 										segColors={segColors}
 										onFinished={(winner) => onFinished(winner)}
@@ -179,9 +179,11 @@ export default function Navbar() {
 				</Dialog>
 			</Transition.Root>
 			{confetti &&
-			// className="fixed inset-0 z-20"
+				// className="fixed inset-0 z-20"
 				<div >
-					<Confetti style={{marginLeft:'1%',marginTop:'3%'}}
+					<Confetti
+						className="fixed inset-0 z-20"
+						style={{ marginLeft: '1%', marginTop: '3%' }}
 						width={width}
 						height={height}
 					/>

@@ -12,6 +12,7 @@ import {
   HiHome,
   HiCube,
 } from "react-icons/hi";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { AiFillSchedule } from "react-icons/ai";
 import { RiCoupon3Line } from "react-icons/ri"
 import { GrUpdate } from "react-icons/gr"
@@ -19,7 +20,7 @@ import { MdProductionQuantityLimits, MdVideoCall } from "react-icons/md";
 import { BsFileEarmarkTextFill, BsBarChartLineFill } from "react-icons/bs";
 import { IoMdAnalytics, IoBarChartSharp } from "react-icons/io";
 import { VscGraph } from "react-icons/vsc";
-import { FaRobot, FaCalendarTimes,FaCoins } from "react-icons/fa";
+import { FaRobot, FaCalendarTimes, FaCoins } from "react-icons/fa";
 import { MdOutlineAutoGraph } from "react-icons/md";
 import axios from "../../Services/axios";
 // import ImProfile from "react-icons/im"
@@ -53,8 +54,8 @@ export default function Sidebar() {
   const inActiveLink = `items-center text-sm capitalize py-2 px-2 my-1 font-semibold flex text-slate-700 dark:text-slate-300 ${currentTheme ? colors.bg[currentTheme].hover : "hover:bg-purple-300"
     } dark:hover:bg-purple-900  hover:rounded-md duration-300`;
 
-  
-  const role = "user";
+
+  const role = "vendor";
   console.log(role);
 
   return (
@@ -76,7 +77,7 @@ export default function Sidebar() {
             {/* JEET */}
             <img
               src="https://www.freepnglogos.com/uploads/flipkart-logo-png/flipkart-logo-transparent-vector-3.png"
-              style={{ width: "150px"}}
+              style={{ width: "150px" }}
             />
           </Link>
 
@@ -136,14 +137,14 @@ export default function Sidebar() {
                   Profile
                 </NavLink>
               </li> */}
-              <li key="organization">
+              <li key="user">
                 <NavLink
                   className={({ isActive }) =>
                     isActive ? activeLink : inActiveLink
                   }
                   onClick={() => setCollapseShow(false)}
                   // to="/admin/organizations">
-                  to="/admin/dashboard/">
+                  to="profile">
                   <AiFillSchedule className="w-5 h-5 mr-2" />
                   Profile
                 </NavLink>
@@ -152,7 +153,7 @@ export default function Sidebar() {
                 General
               </h6>
 
-              {role == "moderator" ? (
+              {role == "vendor" ? (
                 <span>
                   <li key="home">
                     <NavLink
@@ -160,62 +161,20 @@ export default function Sidebar() {
                         isActive ? activeLink : inActiveLink
                       }
                       onClick={() => setCollapseShow(false)}
-                      to="/admin/organizations">
-                      <MdVideoCall className="w-5 h-5 mr-2" />
-                      Review
-                    </NavLink>
-                  </li>
-                  <li key="finance">
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? activeLink : inActiveLink
-                      }
-                      onClick={() => setCollapseShow(false)}
-                      to="/admin/finance">
-                      <IoMdAnalytics className="w-5 h-5 mr-2" />
-                      Feedback
-                    </NavLink>
-                  </li>
-                </span>) : null}
-
-              {role == "contentcreator" ? (
-                <span>
-
-                  <li key="home">
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? activeLink : inActiveLink
-                      }
-                      onClick={() => setCollapseShow(false)}
-                      to="/admin/organizations">
-                      <MdVideoCall className="w-5 h-5 mr-2" />
-                      Upload
-                    </NavLink>
-                  </li>
-                  <li key="finance">
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? activeLink : inActiveLink
-                      }
-                      onClick={() => setCollapseShow(false)}
-                      to="/admin/organizations">
-                      <IoMdAnalytics className="w-5 h-5 mr-2" />
-                      Analysis
-                    </NavLink>
-                  </li>
-                </span>
-              ) : null}
-              {role == "user" ? (
-                <span>
-                  <li key="home">
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? activeLink : inActiveLink
-                      }
-                      onClick={() => setCollapseShow(false)}
-                      to="/admin/organizations">
+                      to="products">
                       <MdProductionQuantityLimits className="w-5 h-5 mr-2" />
                       Products
+                    </NavLink>
+                  </li>
+                  <li key="new">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="addproduct">
+                      <IoAddCircleOutline className="w-5 h-5 mr-2" />
+                      Add Products
                     </NavLink>
                   </li>
                   <li key="rules">
@@ -224,7 +183,7 @@ export default function Sidebar() {
                         isActive ? activeLink : inActiveLink
                       }
                       onClick={() => setCollapseShow(false)}
-                      to="/admin/organizations">
+                      to="rules">
                       <FaCoins className="w-5 h-5 mr-2" />
                       Supercoins Rules
                     </NavLink>
@@ -235,7 +194,7 @@ export default function Sidebar() {
                         isActive ? activeLink : inActiveLink
                       }
                       onClick={() => setCollapseShow(false)}
-                      to="/admin/finance">
+                      to="analysis">
                       <IoMdAnalytics className="w-5 h-5 mr-2" />
                       Analysis
                     </NavLink>

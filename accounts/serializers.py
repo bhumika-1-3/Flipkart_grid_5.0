@@ -20,7 +20,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'firstname', 'lastname', 'vendor', 'address']
+        fields = ['email', 'password', 'firstname', 'lastname', 'vendor', 'address', 'contract']
     
     def save_user(self, validated_data):
         user = User.objects.create_user( 

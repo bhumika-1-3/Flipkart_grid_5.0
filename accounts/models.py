@@ -65,7 +65,7 @@ class User(AbstractBaseUser):
     admin       = models.BooleanField(default=False)
     vendor      = models.BooleanField(default=False)
     address     = models.CharField(max_length=255, blank=True, null=True)
-    
+    contract = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
 

@@ -16,7 +16,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode
 
-from backend.settings import loyaltyToken, vendorContract, userContract, web3
+from backend.settings import loyaltyToken, factoryContract, web3
 from decouple import config
 
 # Create your views here.
@@ -33,7 +33,7 @@ from accounts.serializers import (
 )
 
 User = get_user_model()
-owner_address = config('OWNER_ADDRESS')
+owner_public_key = config('OWNER_PUBLIC_KEY')
 owner_private_key = config('OWNER_PRIVATE_KEY')
 chain_id = config('CHAIN_ID')
 
@@ -66,7 +66,10 @@ class VerifyEmail(APIView):
                 user.active = True
                 if not user.vendor:
                     try:
-                        Util.send_transaction(web3, userContract, 'addUser', chain_id, owner_address, owner_private_key, user.address)
+                        res = Util.send_transaction(web3, factoryContract, 'createUserContract', chain_id, owner_public_key, owner_private_key, user.address)
+                        print(factoryContract.functions.deployedUserContracts(user.address).call())
+                        print(res['logs'][1]['address'])
+                        user.contract = res['logs'][1]['address']
                     except Exception as e:
                         return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
             user.save()
@@ -152,7 +155,10 @@ class VendorProfileAPI(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixin
                 vendor = serializer.save_vendor(serializer.data)
                 #write logic here for token calculation
                 token = 100
-                Util.send_transaction(web3, vendorContract, 'addVendor', chain_id, owner_address, owner_private_key, vendor.vendor_tier, vendor.max_purchases, vendor.user.address, token)
+                res = Util.send_transaction(web3, factoryContract, 'createVendorContract', chain_id, owner_public_key, owner_private_key, vendor.user.address, vendor.max_purchases, token)
+                vendor.user.contract = res['logs'][1]['address']
+                vendor.user.save()
+                # Util.send_transaction(web3, factoryContract, 'setVendorTier', chain_id, owner_public_key, owner_private_key, vendor.user.contract, vendor.vendor_tier)
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
             return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)

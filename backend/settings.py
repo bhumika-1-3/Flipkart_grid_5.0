@@ -14,6 +14,9 @@ from pathlib import Path
 import datetime
 from decouple import config
 from web3 import Web3
+import os
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,16 +58,16 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.User'
 
-AUTHENTICATION_BACKENDS = ( 
-    ('django.contrib.auth.backends.ModelBackend'), 
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
 )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #Cors addition
+    # Cors addition
     'corsheaders.middleware.CorsMiddleware',
-    #end
+    # end
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -96,11 +99,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse("postgres://backenddb_i4ym_user:V0amkeVDAM7Kyp3Fw8uRMh0d5xujSrzA@dpg-cjflrhgcfp5c73eepjgg-a.oregon-postgres.render.com/backenddb_i4ym")
 }
 
 REST_FRAMEWORK = {
@@ -151,6 +158,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -165,15 +173,17 @@ CORS_ALLOWED_ORIGINS = [
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER= config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
-FRONT_END_HOST="http://localhost:3000"
-DEFAULT_FROM_EMAIL =config('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+FRONT_END_HOST = "http://localhost:3000"
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = config('SERVER_EMAIL')
 
 web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
-loyaltyTokenAddress = web3.to_checksum_address('0x2ED990C71f418cab1c6344aDB387e0131e01858B')
-factoryContractAddress = web3.to_checksum_address('0x942d4339285a66E1bf73541E422fbdfd44f0e20f')
+loyaltyTokenAddress = web3.to_checksum_address(
+    '0x2ED990C71f418cab1c6344aDB387e0131e01858B')
+factoryContractAddress = web3.to_checksum_address(
+    '0x942d4339285a66E1bf73541E422fbdfd44f0e20f')
 loyaltyTokenABI = '''[
 	{
 		"inputs": [],
@@ -936,5 +946,7 @@ factoryContractABI = '''[
 		"type": "function"
 	}
 ]'''
-loyaltyToken = web3.eth.contract(address=loyaltyTokenAddress, abi=loyaltyTokenABI)
-factoryContract = web3.eth.contract(address=factoryContractAddress, abi=factoryContractABI)
+loyaltyToken = web3.eth.contract(
+    address=loyaltyTokenAddress, abi=loyaltyTokenABI)
+factoryContract = web3.eth.contract(
+    address=factoryContractAddress, abi=factoryContractABI)

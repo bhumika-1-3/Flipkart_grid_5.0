@@ -107,7 +107,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse("postgres://backenddb_i4ym_user:V0amkeVDAM7Kyp3Fw8uRMh0d5xujSrzA@dpg-cjflrhgcfp5c73eepjgg-a.oregon-postgres.render.com/backenddb_i4ym")
+    'default': dj_database_url.parse("postgres://backenddb_i4ym_user:V0amkeVDAM7Kyp3Fw8uRMh0d5xujSrzA@dpg-cjflrhgcfp5c73eepjgg-a/backenddb_i4ym")
 }
 
 REST_FRAMEWORK = {

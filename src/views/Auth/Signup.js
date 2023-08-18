@@ -443,6 +443,13 @@ export default function Signup() {
           Sign Up
         </button>
       </div>
+      <div className="mt-2">
+        <Link
+          className="underline text-slate-400 text-center block text-sm duration-200 hover:text-slate-700 tracking-wider"
+          to="/">
+          Already have an account ? Login
+        </Link>
+      </div>
     </form>
   );
 }

@@ -29,7 +29,7 @@ captcha =
 export default function Login() {
   const [maincaptcha, setC] = useState("");
   const navigate = useNavigate();
-
+  const type = "vendor";
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
@@ -62,7 +62,7 @@ export default function Login() {
   const loginHandler = (e) => {
 
     e.preventDefault();
-    
+
     const date = new Date();
     const today = date.getDate();
     const prevdate = localStorage.getItem("date");
@@ -70,7 +70,7 @@ export default function Login() {
       // "You have already logged in today!")
       localStorage.setItem("firstime", 0);
     }
-    else{
+    else {
       localStorage.setItem("date", today);
       localStorage.setItem("firstime", 1);
     }
@@ -106,6 +106,8 @@ export default function Login() {
 
 
     toast("Successful!");
+    if (type == "vendor") navigate("/vendor/profile/")
+    else navigate("/customer/profile/")
     // axios(config)
     //   .then(function (response) {
     //     console.log(JSON.stringify(response.data));
@@ -222,8 +224,15 @@ export default function Login() {
       <div className="mt-2">
         <Link
           className="underline text-slate-400 text-center block text-sm duration-200 hover:text-slate-700 tracking-wider"
-          to="/auth/forgot-password">
+          to="/forgotpassword">
           Forgot password ?
+        </Link>
+      </div>
+      <div className="mt-2">
+        <Link
+          className="underline text-slate-400 text-center block text-sm duration-200 hover:text-slate-700 tracking-wider"
+          to="/signup">
+          Don't have an account ? Sign up
         </Link>
       </div>
     </form>

@@ -25,6 +25,8 @@ import AddProduct from "./Page/Vendor/AddProduct"
 import ProfileVendor from "./Page/Vendor/ProfileVendor"
 import SupercoinsRules from "./Page/Vendor/SupercoinsRules"
 import Analysis from "./Page/Vendor/Analysis"
+import ForgotPassword from "./views/Auth/ForgotPassword"
+import CoinExclusive from "./Page/Customer/CoinExclusive"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -46,6 +48,10 @@ function App() {
 		{
 			path: "/signup",
 			element: <center className="m-14"><Signup /></center>,
+		},
+		{
+			path: "/forgotpassword",
+			element: <ForgotPassword />
 		},
 		{
 			path: "/vendor",
@@ -83,6 +89,14 @@ function App() {
 					element: <Customer_dashboard />,
 					path: "products",
 				},
+				{
+					element: <Profile />,
+					path: "profile",
+				},
+				{
+					element: <CoinExclusive />,
+					path: "exclusive",
+				}
 			]
 		}
 	]);

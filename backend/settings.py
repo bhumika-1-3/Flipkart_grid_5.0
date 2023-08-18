@@ -35,7 +35,7 @@ CHAIN_ID = config('CHAIN_ID')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -107,7 +107,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse("postgres://backenddb_i4ym_user:V0amkeVDAM7Kyp3Fw8uRMh0d5xujSrzA@dpg-cjflrhgcfp5c73eepjgg-a/backenddb_i4ym")
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
 
 REST_FRAMEWORK = {

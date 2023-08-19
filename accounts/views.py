@@ -22,15 +22,15 @@ from decouple import config
 # Create your views here.
 
 from .utils import Util
-from accounts.serializers import (
+from .serializers import (
     UserSerializer,
     EmailVerificationSerializer,
     LoginSerializer,
     ResetPasswordEmailRequestSerializer,
     SetNewPasswordSerializer,
-    LogoutSerializer,
-    VendorProfileSerializer
+    LogoutSerializer
 )
+from products.models import VendorProfile
 
 User = get_user_model()
 owner_public_key = config('OWNER_PUBLIC_KEY')
@@ -73,6 +73,8 @@ class VerifyEmail(APIView):
                     except Exception as e:
                         return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
             user.save()
+            if user.vendor:
+                vendor = VendorProfile.objects.create(user=user)
             return JsonResponse({'status': 'Email Successfully Verified'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as identifier:
             return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_400_BAD_REQUEST)
@@ -141,26 +143,3 @@ class LogoutAPIView(generics.GenericAPIView):
 
         return Response({'message':'Logged out successfully'},status=status.HTTP_204_NO_CONTENT)
     
-#Vendor APIs
-class VendorProfileAPI(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
-    serializer_class = VendorProfileSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def post(self, request, *args, **kwargs):
-        serializer = VendorProfileSerializer(data=request.data)
-        if serializer.is_valid():
-            if not request.user.vendor:
-                return JsonResponse({'error': 'User is not a vendor'}, status=status.HTTP_400_BAD_REQUEST)
-            try:
-                vendor = serializer.save_vendor(serializer.data)
-                #write logic here for token calculation
-                token = 100
-                res = Util.send_transaction(web3, factoryContract, 'createVendorContract', chain_id, owner_public_key, owner_private_key, vendor.user.address, vendor.max_purchases, token)
-                vendor.user.contract = res['logs'][1]['address']
-                vendor.user.save()
-                # Util.send_transaction(web3, factoryContract, 'setVendorTier', chain_id, owner_public_key, owner_private_key, vendor.user.contract, vendor.vendor_tier)
-            except Exception as e:
-                return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-            return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)
-        else:
-            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

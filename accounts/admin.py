@@ -2,8 +2,6 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 
-from .models import VendorProfile
-
 # Register your models here.
 from rest_framework_simplejwt import token_blacklist
 
@@ -18,5 +16,4 @@ admin.site.register(token_blacklist.models.OutstandingToken, OutstandingTokenAdm
 User = get_user_model()
 
 admin.site.register(User)
-admin.site.register(VendorProfile)
 admin.site.unregister(Group)

@@ -3,13 +3,6 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from rest_framework_simplejwt.tokens import RefreshToken
 
-# Create your models here.
-
-def upload_path_handler(instance, filename):
-    return "images/products/{title}/{file}".format(
-        title=instance.user, file=filename
-    )
-
 class UserManager(BaseUserManager):
 
     def create_superuser(self, email, firstname, lastname, password=None, is_admin=True, is_staff=True):
@@ -104,13 +97,3 @@ class User(AbstractBaseUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-
-class VendorProfile(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    vendor_tier = models.PositiveIntegerField(default=1)
-    max_purchases = models.PositiveIntegerField(default=1)
-    gst_number = models.CharField(max_length=15, blank=True, null=True)
-
-    def __str__(self):
-        return self.user.firstname + " " + self.user.lastname

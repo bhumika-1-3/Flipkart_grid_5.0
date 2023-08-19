@@ -23,6 +23,7 @@ import { VscGraph } from "react-icons/vsc";
 import { FaRobot, FaCalendarTimes, FaCoins } from "react-icons/fa";
 import { MdOutlineAutoGraph } from "react-icons/md";
 import axios from "../../Services/axios";
+import { useParams } from 'react-router-dom';
 // import ImProfile from "react-icons/im"
 // import NotificationDropdown from "../Dropdowns/NotificationDropdown"
 // import UserDropdown from "../Dropdowns/UserDropdown"
@@ -45,18 +46,17 @@ export default function Sidebar() {
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate("/auth/login");
+    navigate("/login");
   };
-
   const activeLink = `items-center text-sm capitalize py-2 px-2 my-1 font-semibold flex ${currentTheme ? colors.text[currentTheme].dark : "text-purple-700"
     }  ${currentTheme ? colors.bg[currentTheme].medium : "bg-purple-300"
     } dark:bg-purple-900 dark:text-slate-200 rounded-md duration-300`;
   const inActiveLink = `items-center text-sm capitalize py-2 px-2 my-1 font-semibold flex text-slate-700 dark:text-slate-300 ${currentTheme ? colors.bg[currentTheme].hover : "hover:bg-purple-300"
     } dark:hover:bg-purple-900  hover:rounded-md duration-300`;
 
-
+  const temp = (localStorage.getItem("vendor") === 'true');
   const role = "vendor";
-  console.log(role);
+  console.log(temp);
 
   return (
     <>
@@ -153,7 +153,7 @@ export default function Sidebar() {
                 General
               </h6>
 
-              {role == "vendor" ? (
+              {temp ? (
                 <span>
                   <li key="home">
                     <NavLink
@@ -197,6 +197,56 @@ export default function Sidebar() {
                       to="analysis">
                       <IoMdAnalytics className="w-5 h-5 mr-2" />
                       Analysis
+                    </NavLink>
+                  </li>
+                  {/* <li key="groups">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="/admin/group">
+                      <FaCalendarTimes className="w-5 h-5 mr-2" />
+                      Verification
+                    </NavLink>
+                  </li>
+                  <li key="users">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="/admin/users">
+                      <GrUpdate className="w-5 h-5 mr-2" />
+                      Extra
+                    </NavLink>
+                  </li> */}
+                  {/* <li key="groups">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="/admin/group">
+                      <FaCalendarTimes className="w-5 h-5 mr-2" />
+                      Video
+                    </NavLink>
+                  </li> */}
+                </span>
+              )
+                : null
+              }
+              {!temp ? (
+                <span>
+                  <li key="home">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="products">
+                      <MdProductionQuantityLimits className="w-5 h-5 mr-2" />
+                      Products
                     </NavLink>
                   </li>
                   {/* <li key="groups">

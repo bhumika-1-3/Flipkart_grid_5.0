@@ -275,7 +275,7 @@ export default function Signup() {
       },
       data: data
     };
-
+    localStorage.setItem("vendor", vendor);
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));

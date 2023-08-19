@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import VendorProfile, Product
+from .models import VendorProfile, Product, Coupon
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -30,4 +30,16 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'vendor', 'description', 'price', 'instock', 'product_img', 'category']
+        fields = ['name', 'description', 'price', 'instock', 'product_img', 'category']
+
+class CouponSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Coupon
+        fields = ['name', 'code', 'discount', 'active', 'expiry_date', 'price_tokens']
+
+class UserCouponSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Coupon
+        fields = ['user', 'coupon', 'date_used']

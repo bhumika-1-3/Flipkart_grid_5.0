@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 
 User = get_user_model()
 
+from datetime import date as dt
+
 # Create your models here.
 
 def upload_path_handler(instance, filename):
@@ -40,3 +42,29 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Coupon(models.Model):
+
+    vendor = models.ForeignKey(VendorProfile, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
+    discount = models.DecimalField(decimal_places=2, max_digits=10)
+    price_tokens = models.PositiveIntegerField()
+    active = models.BooleanField(default=True)
+    expiry_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name + " " + self.vendor.user.firstname
+    
+    @property
+    def is_active(self):
+        return self.active
+    
+class UserCoupon(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, blank=True, null=True)
+    date_used = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.user.firstname + " " + self.coupon.name

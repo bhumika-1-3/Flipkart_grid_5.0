@@ -87,7 +87,15 @@ class Login(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request':request})
         serializer.is_valid(raise_exception=True)
-        return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK)
+        validated_data = serializer.validated_data
+        print(validated_data['user'])
+        return JsonResponse({
+            'email': validated_data['user'].email,
+            'vendor': validated_data['user'].vendor,
+            'address': validated_data['user'].address,
+            'refresh': str(validated_data['refresh']),
+            'access': str(validated_data['access'])
+        }, status=status.HTTP_200_OK)
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):

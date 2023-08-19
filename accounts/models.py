@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in
+
 class UserManager(BaseUserManager):
 
     def create_superuser(self, email, firstname, lastname, password=None, is_admin=True, is_staff=True):

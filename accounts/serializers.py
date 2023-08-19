@@ -11,6 +11,7 @@ from django.urls import reverse
 
 from .utils import Util
 from django.conf import settings
+from datetime import datetime as dt
 
 User = get_user_model()
 
@@ -63,7 +64,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         filtered_user_by_email = User.objects.filter(email=email)
         auth_user = auth.authenticate(email=email, password=password)
-
+        # auth_user.last_login = 
         if not auth_user:
             raise AuthenticationFailed("Invalid credentials, try again")
         if not auth_user.is_active:
@@ -73,9 +74,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         tokens = RefreshToken.for_user(user=auth_user)
         return {
-            'email': auth_user.email,
-            'vendor': auth_user.vendor,
-            'address': auth_user.address,
+            'user': auth_user,
             'refresh': str(tokens),
             'access': str(tokens.access_token)
         }

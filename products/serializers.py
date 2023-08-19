@@ -30,13 +30,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price', 'instock', 'product_img', 'category']
+        fields = ['pk', 'name', 'description', 'price', 'instock', 'product_img', 'category']
 
 class CouponSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Coupon
-        fields = ['name', 'code', 'discount', 'active', 'expiry_date', 'price_tokens']
+        fields = ['pk', 'name', 'code', 'discount', 'active', 'expiry_date', 'price_tokens']
 
 class UserCouponSerializer(serializers.ModelSerializer):
 

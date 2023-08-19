@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { FaUserTie, FaBook } from "react-icons/fa";
+import { FaUserTie, FaBook,FaMedal } from "react-icons/fa";
 import {
   HiUserGroup,
   HiMenuAlt2,
@@ -137,7 +137,7 @@ export default function Sidebar() {
                   Profile
                 </NavLink>
               </li> */}
-              <li key="user">
+              {/* <li key="user">
                 <NavLink
                   className={({ isActive }) =>
                     isActive ? activeLink : inActiveLink
@@ -151,10 +151,25 @@ export default function Sidebar() {
               </li>
               <h6 className="max-w-fit text-slate-500 text-sm capitalize font-bold block px-2 pb-2 border-b-2 border-b-slate-400 dark:border-b-slate-500 mb-2 mt-4">
                 General
-              </h6>
+              </h6> */}
 
               {temp ? (
                 <span>
+                  <li key="user">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      // to="/admin/organizations">
+                      to="profile">
+                      <AiFillSchedule className="w-5 h-5 mr-2" />
+                      Profile
+                    </NavLink>
+                  </li>
+                  <h6 className="max-w-fit text-slate-500 text-sm capitalize font-bold block px-2 pb-2 border-b-2 border-b-slate-400 dark:border-b-slate-500 mb-2 mt-4">
+                    General
+                  </h6>
                   <li key="home">
                     <NavLink
                       className={({ isActive }) =>
@@ -247,6 +262,28 @@ export default function Sidebar() {
                       to="products">
                       <MdProductionQuantityLimits className="w-5 h-5 mr-2" />
                       Products
+                    </NavLink>
+                  </li>
+                  <li key="exclusive">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="exclusive">
+                      <FaCoins className="w-5 h-5 mr-2" />
+                      Exclusive
+                    </NavLink>
+                  </li>
+                  <li key="challenges">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="challenges">
+                      <FaMedal className="w-5 h-5 mr-2" />
+                      Challenges
                     </NavLink>
                   </li>
                   {/* <li key="groups">

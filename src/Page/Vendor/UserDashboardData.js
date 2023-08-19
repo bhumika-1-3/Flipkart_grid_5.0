@@ -113,13 +113,13 @@ const UserDashboardData = () => {
                   borderWidth: "1px",
                   borderColor: "divider",
                   height: "100%",
-                  width: "280px",
+                  width: "300px",
                   padding: "35px",
                 }}
               >
                 <Typography variant="h6">Your balance</Typography>
                 <Typography variant="h4" style={{ color: "#11141c" }}>
-                  ₹ {balance[0].balance}
+                  ₹ 1245066.57
                 </Typography>
               </Paper>
             </ComponentWrapper>
@@ -138,9 +138,9 @@ const UserDashboardData = () => {
                   padding: "35px",
                 }}
               >
-                <Typography variant="h6">Bajaj points</Typography>
+                <Typography variant="h6">Super coins</Typography>
                 <Typography variant="h4" style={{ color: "#11141c" }}>
-                  3000
+                43333.333333
                 </Typography>
               </Paper>
             </ComponentWrapper>
@@ -159,9 +159,9 @@ const UserDashboardData = () => {
                   padding: "35px",
                 }}
               >
-                <Typography variant="h6">Total Investment</Typography>
+                <Typography variant="h6">Total Discount Provided</Typography>
                 <Typography variant="h4" style={{ color: "#11141c" }}>
-                  ₹ 10000.00
+                  ₹ 85683.0
                 </Typography>
               </Paper>
             </ComponentWrapper>
@@ -198,17 +198,17 @@ const UserDashboardData = () => {
                 </Tabs>
                 <CustomTabPanel value={value} index={0}>
                   <Typography variant="h4" style={{ color: "#11141c" }}>
-                    ₹ 750000.00
+                    ₹ 11971.7939
                   </Typography>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                   <Typography variant="h4" style={{ color: "#11141c" }}>
-                    ₹ 50000.00
+                    ₹ 34585.1825
                   </Typography>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                   <Typography variant="h4" style={{ color: "#11141c" }}>
-                    ₹ 5000.00
+                    ₹ 415022.19
                   </Typography>
                 </CustomTabPanel>
                 <Typography>
@@ -249,17 +249,17 @@ const UserDashboardData = () => {
                   </Tabs>
                   <CustomTabPanel value={value2} index={0}>
                     <Typography variant="h4" style={{ color: "#11141c" }}>
-                      ₹ 100000.00
+                      ₹ 8333.3333
                     </Typography>
                   </CustomTabPanel>
                   <CustomTabPanel value={value2} index={1}>
                     <Typography variant="h4" style={{ color: "#11141c" }}>
-                      ₹ 50000.00
+                      ₹ 100000.0
                     </Typography>
                   </CustomTabPanel>
                   <CustomTabPanel value={value2} index={2}>
                     <Typography variant="h4" style={{ color: "#11141c" }}>
-                      ₹ 5000.00
+                      ₹ 433333.3316
                     </Typography>
                   </CustomTabPanel>
                   <Typography>

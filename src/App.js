@@ -28,6 +28,7 @@ import Analysis from "./Page/Vendor/Analysis"
 import ForgotPassword from "./views/Auth/ForgotPassword"
 import CoinExclusive from "./Page/Customer/CoinExclusive"
 import MoreDetails from "./Page/Vendor/MoreDetails"
+import Challenges from "./Page/Customer/Challenges"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -106,6 +107,10 @@ function App() {
 				{
 					element: <CoinExclusive />,
 					path: "exclusive",
+				},
+				{
+					element: <Challenges />,
+					path: "challenges",
 				}
 			]
 		}

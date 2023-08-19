@@ -27,6 +27,7 @@ import SupercoinsRules from "./Page/Vendor/SupercoinsRules"
 import Analysis from "./Page/Vendor/Analysis"
 import ForgotPassword from "./views/Auth/ForgotPassword"
 import CoinExclusive from "./Page/Customer/CoinExclusive"
+import MoreDetails from "./Page/Vendor/MoreDetails"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -54,6 +55,10 @@ function App() {
 			element: <ForgotPassword />
 		},
 		{
+			element: <center className="m-14"><MoreDetails /></center>,
+			path: "moredetails/:id",
+		},
+		{
 			path: "/vendor",
 			element: <DashboardLayout />,
 			errorElement: <ErrorPage />,
@@ -77,7 +82,8 @@ function App() {
 				{
 					element: <Analysis />,
 					path: "analysis",
-				}
+				},
+			
 			]
 		},
 		{

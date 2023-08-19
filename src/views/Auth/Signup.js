@@ -51,6 +51,7 @@ export default function Signup() {
   const [haveMetamask, sethaveMetamask] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
   const [pan, setPan] = useState(true);
+  const [vendor, setvendor] = useState(false);
   const panNumber = useRef(null);
   const { ethereum } = window;
   const [accountBalance, setAccountBalance] = useState("");
@@ -118,7 +119,7 @@ export default function Signup() {
         connectMetamask();
 
     };
-    console.log(haveMetamask);
+    // console.log(haveMetamask);
     checkMetamaskAvailability();
   }, []);
 
@@ -137,7 +138,8 @@ export default function Signup() {
       setAccountBalance(bal);
       setIsConnected(true);
 
-      console.log(accounts[0]);
+      // console.log(accounts[0]);
+      toast.success("Connected to Metamask")
     } catch (error) {
       setIsConnected(false);
     }
@@ -254,27 +256,45 @@ export default function Signup() {
     }
 
 
-    data.append('username', userInput.username);
-    data.append('email', userInput.email);
-    data.append('password', userInput.password);
+    toast("User created");
+    var axios = require('axios');
+    var data = JSON.stringify({
+      "email": userInput.email,
+      "password": userInput.password,
+      "firstname": userInput.name.split(' ')[0],
+      "lastname": userInput.name.split(' ')[1],
+      "vendor": vendor,
+      "address": accountAddress
+    });
+    console.log(data);
     var config = {
       method: 'post',
-      url: 'http://127.0.0.1:8000/accounts/signup/',
+      url: 'https://backendom5.onrender.com/api/accounts/signup/',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       data: data
     };
-    toast("User created");
+
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        navigate("/vendor/profile")
+        if (!vendor)
+          navigate("/customer/products");
+        else
+          navigate("/vendor/profile");
       })
       .catch(function (error) {
         console.log(error);
-        navigate("/vendor/profile")
       });
+
 
   };
 
+  const inputChangeHandlerVendor = (event) => {
+    const { value } = event.target;
+    setvendor(value === 'true');
+  }
   return (
     <form className="max-w-sm bg-white px-8 py-7 rounded-2xl shadow-xl w-full">
       <h2 className="text-2xl mb-6 font-normal text-slate-500">
@@ -345,15 +365,14 @@ export default function Signup() {
           Select Role
         </label>
         <select
-          onChange={inputChangeHandler}
+          onChange={inputChangeHandlerVendor}
           name="role"
           type="text"
           class="select"
           className="px-3 py-3 placeholder-blueGray-300 text-slate-700 placeholder:text-slate-400 bg-gray-50  border borderColor rounded-xl text-sm  focus:outline-none w-full ease-linear transition-all duration-150"
         >
-          <option value="admin">Admin</option>
-          <option value="creator">Creator</option>
-          <option value="user">User</option>
+          <option value={false}>Customer</option>
+          <option value={true}>Vendor</option>
         </select>
       </div>
       {userInput.role === "creator" && (

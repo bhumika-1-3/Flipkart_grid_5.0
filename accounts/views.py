@@ -94,7 +94,8 @@ class Login(generics.GenericAPIView):
             'vendor': validated_data['user'].vendor,
             'address': validated_data['user'].address,
             'refresh': str(validated_data['refresh']),
-            'access': str(validated_data['access'])
+            'access': str(validated_data['access']),
+            'spinwheel': str(validated_data['spinwheel'])
         }, status=status.HTTP_200_OK)
 
 

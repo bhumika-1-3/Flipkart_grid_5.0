@@ -53,15 +53,16 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    firstname   = models.CharField(max_length=60)
-    lastname    = models.CharField(max_length=60)
-    active      = models.BooleanField(default=True)
-    verified    = models.BooleanField(default=False)
-    staff       = models.BooleanField(default=False)
-    admin       = models.BooleanField(default=False)
-    vendor      = models.BooleanField(default=False)
-    address     = models.CharField(max_length=255, blank=True, null=True)
-    contract = models.CharField(max_length=255, blank=True, null=True)
+    firstname         = models.CharField(max_length=60)
+    lastname          = models.CharField(max_length=60)
+    active            = models.BooleanField(default=True)
+    verified          = models.BooleanField(default=False)
+    staff             = models.BooleanField(default=False)
+    admin             = models.BooleanField(default=False)
+    vendor            = models.BooleanField(default=False)
+    address           = models.CharField(max_length=255, blank=True, null=True)
+    contract          = models.CharField(max_length=255, blank=True, null=True)
+    login_consecutive = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = 'email'
 

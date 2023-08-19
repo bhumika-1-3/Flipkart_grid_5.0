@@ -34,7 +34,7 @@ const AveargeTotals = () => {
           <CircularBar percentage={46} pathColor="#99d1a6" />
           <Box>
             <Typography variant="h6" sx={{ fontSize: "16px" }}>
-              92,980
+            17450660.57
             </Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.7 }}>
               UPI
@@ -46,7 +46,7 @@ const AveargeTotals = () => {
           <CircularBar percentage={74} pathColor="#a288ec" />
           <Box>
             <Typography variant="h6" sx={{ fontSize: "16px" }}>
-              23,980
+            5816886.8566
             </Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.7 }}>
               Debit Card
@@ -58,10 +58,10 @@ const AveargeTotals = () => {
           <CircularBar percentage={14} pathColor="#fc424a" />
           <Box>
             <Typography variant="h6" sx={{ fontSize: "16px" }}>
-              14,980
+            1615.80190
             </Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.7 }}>
-              Others
+              Blockchain Gas Fee
             </Typography>
           </Box>
         </Box>

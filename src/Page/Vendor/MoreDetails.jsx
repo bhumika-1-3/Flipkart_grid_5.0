@@ -42,10 +42,11 @@ var captcha =
 export default function MoreDetails() {
     const [userInput, setUserInput] = useState({
         name: "",
-        email: "",
-        password: "",
+        maxp: 0,
+        gst: "",
         role: "",
     });
+    const { currentTheme, colors } = useSelector((state) => state.theme)
 
     const navigate = useNavigate();
     const [haveMetamask, sethaveMetamask] = useState(false);
@@ -124,12 +125,12 @@ export default function MoreDetails() {
     };
 
 
-    useEffect(() => {
-        if (!success && showToast) {
-            toast(message);
-        }
-        return () => dispatch(toastReset());
-    }, [showToast, message, dispatch, success]);
+    // useEffect(() => {
+    //     if (!success && showToast) {
+    //         toast(message);
+    //     }
+    //     return () => dispatch(toastReset());
+    // }, [showToast, message, dispatch, success]);
 
     // if (isLoading) {
     // 	return <div className="text-2xl text-white">Loading...</div>
@@ -139,52 +140,15 @@ export default function MoreDetails() {
     const signupHandler = (e) => {
         e.preventDefault();
 
-        if (!isConnected) {
-            toast.error("Please Connect to Metamask", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-            return;
-        }
-        if (!userInput.email.includes("@")) {
-            alert("Enter a valid email address!");
-            return;
-        }
-        if (userInput.email.length === 0) {
-            alert("Email field can't be empty!");
-            return;
-        }
-        if (userInput.password.length === 0) {
-            alert("Password field can't be empty!");
-            return;
-        }
 
-
-        toast("User created");
-        var axios = require('axios');
-        var data = JSON.stringify({
-            "email": userInput.email,
-            "password": userInput.password,
-            "firstname": userInput.name.split(' ')[0],
-            "lastname": userInput.name.split(' ')[1],
-            "vendor": vendor,
-            "address": accountAddress
-        });
-        console.log(data);
-        var axios = require('axios');
         var data = JSON.stringify({
             "user": "parthshukla@gmail.com",
-            "vendor_tier": 1,
-            "max_purchases": 10,
-            "gst_number": "GST6843516"
+            "vendor_tier": vendor,
+            "max_purchases": userInput.maxp,
+            "gst_number": userInput.gst,
         });
 
+        console.log(data);
         var config = {
             method: 'post',
             url: `${backendURL}accounts/vendor-profile/`,
@@ -197,6 +161,8 @@ export default function MoreDetails() {
 
         axios(config)
             .then(function (response) {
+                toast("Rules updated successfully , Now you change it after 3 weeks");
+
                 console.log(JSON.stringify(response.data));
             })
             .catch(function (error) {
@@ -209,10 +175,10 @@ export default function MoreDetails() {
 
     const inputChangeHandlerVendor = (event) => {
         const { value } = event.target;
-        setvendor(value === 'true');
+        setvendor(Number(value));
     }
     return (
-        <form className="max-w-sm bg-white px-8 py-7 rounded-2xl shadow-xl w-full">
+        <form className="max-w-4xl bg-white px-8 py-7 rounded-2xl ">
             <h2 className="text-2xl mb-6 font-normal text-slate-500">
                 Additional Details :
             </h2>
@@ -226,9 +192,9 @@ export default function MoreDetails() {
                     GST Number
                 </label>
                 <input
-                    value={userInput.name}
+                    value={userInput.gst}
                     onChange={inputChangeHandler}
-                    name="name"
+                    name="gst"
                     type="text"
                     className="px-3 py-3 placeholder-blueGray-300 text-slate-700 bg-gray-50 placeholder:text-slate-400 rounded-xl text-sm border borderColor  focus:outline-none  w-full ease-linear transition-all duration-150"
                     placeholder="GST6..."
@@ -244,9 +210,9 @@ export default function MoreDetails() {
                     Max Purchases
                 </label>
                 <input
-                    value={userInput.email}
+                    value={userInput.maxp}
                     onChange={inputChangeHandler}
-                    name="email"
+                    name="maxp"
                     type="number"
                     className="px-3 py-3 placeholder-blueGray-300 text-slate-700 bg-gray-50 placeholder:text-slate-400 rounded-xl text-sm border borderColor  focus:outline-none  w-full ease-linear transition-all duration-150"
                     // placeholder="Enter your email address..."
@@ -369,7 +335,10 @@ export default function MoreDetails() {
 
             <div className="text-center mt-6">
                 <button
-                    className="bg-purple-600 hover:bg-purple-700 flex items-center justify-center text-white active:bg-blueGray-600 text-lg font-base px-6 py-2 rounded-xl shadow outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                    className={`${currentTheme
+                        ? colors.bg[currentTheme].dark
+                        : "bg-purple-800 active:bg-purple-700"
+                        } flex items-center justify-center text-white active:bg-blueGray-600 text-lg font-base px-6 py-2 rounded-xl shadow outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150`}
                     type="submit"
                     disabled={!pan}
                     onClick={signupHandler}

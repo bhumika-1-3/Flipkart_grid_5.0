@@ -27,6 +27,7 @@ import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { AiOutlineCloseCircle, AiOutlineStar } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 var axios = require('axios');
 
 
@@ -105,6 +106,9 @@ const Groups = (props) => {
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         setData(response.data);
+        if(response.data.length > 3){
+          toast("You can set the distribute the supercoins to the loyal users now!")
+        }
       })
       .catch(function (error) {
         console.log(error);

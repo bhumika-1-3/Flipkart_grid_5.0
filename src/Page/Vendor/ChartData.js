@@ -155,11 +155,11 @@ export const barChartOptions = {
 export const salesLineChartData = [
   {
     name: "Current Balance",
-    data: [15889.36, 14806, 4295.36, 716.11, 4716.11, 3991.11],
+    data: [15889.36, 14806, 4295.36, 1716.11, 4716.11, 3991.11],
   },
   {
-    name: "Amount",
-    data: [1083.36, 10510.64, 3579.25, 4000, 725, 3991.11],
+    name: "Tokens",
+    data: [1083.36, 10510.64, 579.25, 160, 725, 52],
   },
 ];
 
@@ -314,14 +314,14 @@ export const salesReportPieChartData = [15, 15, 10, 15, 5, 10, 25, 5];
 
 export const salesReportPieChartOptions = {
   labels: [
-    "Groceries",
-    "DineOut",
-    "Travel",
-    "Utilities",
-    "Insurance",
-    "Medicine",
-    "Recreation",
-    "Misc",
+    "Athletic Footwear",
+    "Sports Apparel",
+    "Accessories",
+    "Athletic Equipment",
+    "Performance Gear",
+    "Branded Merchandise",
+    "Retail Operations",
+    "Marketing and Promotion",
   ],
   states: {
     hover: {

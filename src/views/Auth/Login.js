@@ -129,7 +129,7 @@ export default function Login() {
       .catch(function (error) {
         console.log(error);
         toast("Verification Pending");
-        navigate("/vendor/profile")
+        // navigate("/vendor/profile")
       });
 
   };

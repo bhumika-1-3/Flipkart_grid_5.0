@@ -87,6 +87,7 @@ const UserDashboardData = () => {
             <ComponentWrapper>
               <Paper
                 sx={{
+                  boxShadow: "none !important",
                   borderRadius: "12px",
                   borderStyle: "solid",
                   borderWidth: "1px",
@@ -159,7 +160,7 @@ const UserDashboardData = () => {
                   padding: "35px",
                 }}
               >
-                <Typography variant="h6">Total Discount Provided</Typography>
+                <Typography variant="h6">Total Discount</Typography>
                 <Typography variant="h4" style={{ color: "#11141c" }}>
                   ₹ 85683.0
                 </Typography>

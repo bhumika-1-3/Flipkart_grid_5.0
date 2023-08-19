@@ -55,10 +55,7 @@ function App() {
 			path: "/forgotpassword",
 			element: <ForgotPassword />
 		},
-		{
-			element: <center className="m-14"><MoreDetails /></center>,
-			path: "moredetails/:id",
-		},
+	
 		{
 			path: "/vendor",
 			element: <DashboardLayout />,
@@ -81,14 +78,17 @@ function App() {
 					path: "addproduct/:id",
 				},
 				{
-					element: <SupercoinsRules />,
+					element: <MoreDetails />,
 					path: "rules",
 				},
 				{
 					element: <Analysis />,
 					path: "analysis",
 				},
-			
+				// {
+				// 	element: <center className="m-14"><MoreDetails /></center>,
+				// 	path: "moredetails/:id",
+				// },
 			]
 		},
 		{

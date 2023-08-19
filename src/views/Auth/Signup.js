@@ -22,8 +22,7 @@ import {
   TableDropdown,
   UserDropdown,
 } from "../../components";
-var FormData = require('form-data');
-var data = new FormData();
+import backendURL from "../../BackendURL";
 let alphabets = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 let first = alphabets[Math.floor(Math.random() * alphabets.length)];
 let second = Math.floor(Math.random() * 10);
@@ -269,7 +268,7 @@ export default function Signup() {
     console.log(data);
     var config = {
       method: 'post',
-      url: 'https://backendom5.onrender.com/api/accounts/signup/',
+      url: `${backendURL}accounts/signup/`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -279,6 +278,20 @@ export default function Signup() {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+
+        var configemailverify = {
+          method: 'get',
+          url: `${backendURL}accounts/email-verify/?token=${response.data.token}`,
+          headers: {}
+        };
+
+        axios(configemailverify)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         if (!vendor)
           navigate("/customer/products");
         else

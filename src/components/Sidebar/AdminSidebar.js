@@ -46,7 +46,7 @@ export default function Sidebar() {
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate("/");
   };
   const activeLink = `items-center text-sm capitalize py-2 px-2 my-1 font-semibold flex ${currentTheme ? colors.text[currentTheme].dark : "text-purple-700"
     }  ${currentTheme ? colors.bg[currentTheme].medium : "bg-purple-300"

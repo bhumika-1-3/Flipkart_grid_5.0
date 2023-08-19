@@ -5,6 +5,12 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import backendURL from '../../BackendURL';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+var axios = require('axios');
+var FormData = require('form-data');
+
 
 const Tile = ({ data, setConveniences }) => {
     const [selected, setSelected] = useState(false);
@@ -41,13 +47,62 @@ const AddProduct = () => {
         setImages(selectedFiles);
         // showimage();
     }
-	const { currentTheme, colors } = useSelector((state) => state.theme)
-
+    const { currentTheme, colors } = useSelector((state) => state.theme)
+    const navigate = useNavigate();
     const showimage = () => {
         console.log(images);
         const newShowImages = images?.map(file => URL.createObjectURL(file));
         setShowImages(newShowImages);
     }
+
+    const [userInput, setUserInput] = useState({
+        name: "",
+        description: "Very Nice",
+        price: 100,
+        quantity: 10,
+        category: "MCol",
+    });
+
+    const onSubmit = () => {
+
+        var data = new FormData();
+        data.append('name', userInput.name);
+        data.append('description', userInput.description);
+        data.append('price', userInput.price);
+        data.append('instock', userInput.quantity);
+        data.append('category', 'MCol');
+        data.append('product_img', images[0]);
+        var config = {
+            method: 'post',
+            url: `${backendURL}products/product/`,
+            headers: {
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+                toast("Product Added Successfully , Supercoins will be added soon");
+                navigate("/vendor/products")
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
+    const inputChangeHandler = (e) => {
+
+        setUserInput((prev) => {
+            return {
+                ...prev,
+                [e.target.name]: e.target.value,
+            };
+        });
+    };
+
 
     return (
         <div>
@@ -67,8 +122,8 @@ const AddProduct = () => {
                             Product Name
                         </label>
                         <input
-                            // value={userInput.email}
-                            // onChange={inputChangeHandler}
+                            value={userInput.name}
+                            onChange={inputChangeHandler}
                             name="name"
                             type="text"
                             className="px-3 py-3 placeholder-blueGray-300 text-slate-700 bg-gray-50 placeholder:text-slate-400 rounded-xl text-sm border borderColor  focus:outline-none  w-full ease-linear transition-all duration-150"
@@ -94,7 +149,10 @@ const AddProduct = () => {
                                 <input
                                     className="px-4 py-3 shadow text-sm text-gray-500 rounded-xl focus:outline-none"
                                     placeholder="₹"
-                                    type="text"
+                                    type="number"
+                                    name='price'
+                                    value={userInput.price}
+                                    onChange={inputChangeHandler}
                                 />
                             </div>
                             <div>
@@ -107,7 +165,10 @@ const AddProduct = () => {
                                 <input
                                     className="px-4 py-3 shadow text-sm text-gray-500 rounded-xl focus:outline-none"
                                     placeholder="units"
-                                    type="text"
+                                    type="number"
+                                    name='quantity'
+                                    value={userInput.quantity}
+                                    onChange={inputChangeHandler}
                                 />
                             </div>
                         </div>
@@ -119,11 +180,11 @@ const AddProduct = () => {
                                 Tags
                             </label>
                             <div className="flex flex-wrap gap-2">
-                                <Tile data="Vegan" setConveniences={setConveniences} />
-                                <Tile data="Veg" setConveniences={setConveniences} />
-                                <Tile data="Non Veg" setConveniences={setConveniences} />
-                                <Tile data="Egg" setConveniences={setConveniences} />
-                                <Tile data="Gluten Free" setConveniences={setConveniences} />
+                                <Tile data="Food" setConveniences={setConveniences} />
+                                <Tile data="Clothes" setConveniences={setConveniences} />
+                                <Tile data="Medicine" setConveniences={setConveniences} />
+                                <Tile data="Electronics" setConveniences={setConveniences} />
+                                <Tile data="Extra" setConveniences={setConveniences} />
                             </div>
                         </div>
                     </div>
@@ -264,14 +325,15 @@ const AddProduct = () => {
                         placeholder="/km"
                         type="text"
                     />
-                    <br/>
+                    <br />
                     <button
                         // onClick={onClick}
                         className={`${currentTheme
-                                        ? colors.bg[currentTheme].dark
-                                        : "bg-purple-800 active:bg-purple-700"
+                            ? colors.bg[currentTheme].dark
+                            : "bg-purple-800 active:bg-purple-700"
                             } text-slate-50 focus:outline-none  font-medium rounded-md float-right hover:opacity-80 duration-300 text-lg px-8 py-3 text-center inline-flex items-center mt-3 mr-2 mb-2 dark:bg-purple-800 dark:active:bg-purple-700`}
                         type="button"
+                        onClick={onSubmit}
                     >
                         Submit
                     </button>

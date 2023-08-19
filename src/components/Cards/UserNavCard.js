@@ -1,7 +1,8 @@
 import { AiFillFire } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { Typography, Modal, Box, DialogTitle } from "@mui/material";
+import { Typography, Modal, Box, DialogTitle, List, ListItem, ListItemText } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
+import { BsCoin } from "react-icons/bs";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -46,23 +47,28 @@ const UserNavCard = ({ name, email, logout }) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box>
-            <DialogTitle id="modal-modal-title" variant="h6" component="h2">
-              "360 supercoins are on the way"
-            </DialogTitle>
-            <h2>Supercoins T&C</h2>
-            <ol>
-              <li>Declaying natural of supercoins ie all SuperCoins not redeemed for 12 months will expire at the end of the period.</li>
-              <li>Utilization of the existing reward and loyalty metrics of flipkart (Supercoin) for easy integration to existing system. </li>
-              <li>Gamified user experience leading to earning more supercoins.</li>
-              <li>Gamified user experience leading to earning more supercoins.</li>
-              <li>Challenges to achieve purchasing target to receive supercoins leading to increase in sale as well as more engagement with flipkart platform</li>
-              <li>Referral and social media engagement benefits .</li>
-              <li>Enable users to use their tokens to access exclusive experiences, events, or content that would otherwise require traditional currency like (free delivery)</li>
-              <li>Supercoins are credited once the return period of the item is completed →customer</li>
-              <li>Supercoins are reclaimed if the products are removed by the vendor → security</li>
-              <li>Vendor can only change the Criteria after 3 weeks period.</li>
-            </ol>
+          <DialogTitle id="modal-modal-title" variant="h6" component="p">
+            <BsCoin /> 360 supercoins are on the way
+          </DialogTitle>
+          <Box style={{ "padding": "1rem" }}>
+            <h1 style={{ fontWeight: "bold" }}>Supercoins T&C :</h1>
+            <List>
+              <ListItem disablePadding>
+                <ListItemText primary="1) Declaying natural of supercoins ie all SuperCoins not redeemed for 12 months will expire at the end of the period." />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="2) Enable users to use their tokens to access exclusive experiences, events, or content that would otherwise require traditional currency like (free delivery)" />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="3) Vendor can only change the Criteria after 3 weeks period." />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="4) Supercoins are credited once the return period of the item is completed →customer" />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="5) Supercoins are reclaimed if the products are removed by the vendor → security" />
+              </ListItem>
+            </List>
           </Box>
         </Dialog>
         {/* <AiFillFire className="h-8 w-8 block mr-2 text-yellow-400 dark:text-slate-500" /> */}

@@ -26,6 +26,7 @@ import { Fragment } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { AiOutlineCloseCircle, AiOutlineStar } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const product = {
   name: 'Basic Tee 6-Pack ',
@@ -319,11 +320,18 @@ const Groups = (props) => {
                 <Td><center>{i.supercoins_earned}</center></Td>
                 <Td>
 
-                  <Button children="Restock" onClick={()=>{
+                  <Button children="Restock" onClick={() => {
                     navigate("/vendor/addproduct")
                   }} restock={true} Icon={MdOutlineAddShoppingCart} className="bg-green-500"></Button>
                   <Button onClick={() => setOpen(!open)} children="View" view={true} Icon={AiOutlineEye} className="bg-green-500"></Button>
-                  <Button children="Delete" danger={true} Icon={AiOutlineDelete} className="bg-green-500"></Button>
+                  <Button children="Delete" onClick={() => {
+                    Swal.fire({
+                      title: 'Are you sure?',
+                      text: "You will lose supercoins too!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                    })
+                  }} danger={true} Icon={AiOutlineDelete} className="bg-green-500"></Button>
                 </Td>
               </Tbody>
             })

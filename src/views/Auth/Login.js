@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { CgProfile } from "react-icons/cg"
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import backendURL from "../../BackendURL";
 import { login, toastReset, setRole } from "../../store/slices/auth/authSlice";
 var axios = require('axios');
 var FormData = require('form-data');
@@ -91,13 +92,15 @@ export default function Login() {
 
     var axios = require('axios');
     var data = JSON.stringify({
-      "name": "harsh",
-      "password": "123456"
+      "email": userInput.email,
+      "password": userInput.password
     });
+
+    console.log(data);
 
     var config = {
       method: 'post',
-      url: 'http://localhost:8000/api/auth/signin',
+      url: `${backendURL}accounts/login/`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -105,25 +108,29 @@ export default function Login() {
     };
 
 
-    toast("Successful!");
-    if (type == "vendor") navigate("/vendor/profile/")
-    else navigate("/customer/profile/")
-    // axios(config)
-    //   .then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //     localStorage.setItem("role", response?.data?.role);
-    //     localStorage.setItem("dataall", response?.data);
+    // if (type == "vendor") navigate("/vendor/profile/")
+    // else navigate("/customer/profile/")
+    axios(config)
+      .then(function (response) {
+        const vendor = localStorage.getItem("vendor");
+        toast("Successful!");
+        console.log(JSON.stringify(response.data));
+        // localStorage.setItem("role", response?.data?.role);
+        // localStorage.setItem("dataall", response?.data);
 
-    //     if (response.data.isverified == false) {
-    //       toast("Verification Pending");
-    //     }
-    //     else
-    //       navigate("/admin/dashboard/")
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //     navigate("/admin/dashboard/")
-    //   });
+        // if (response.data.detail == false) {
+        //   toast("Verification Pending");
+        // }
+        // else
+        if (vendor == "true")
+          navigate("/vendor/profile")
+        else navigate("/customer/products")
+      })
+      .catch(function (error) {
+        console.log(error);
+        toast("Verification Pending");
+        navigate("/vendor/profile")
+      });
 
   };
 
@@ -162,7 +169,7 @@ export default function Login() {
           required
         />
       </div>
-      <div className="relative w-full mb-3">
+      {/* <div className="relative w-full mb-3">
         <label
           className="flex items-center text-slate-500 text-xs font-semibold mb-2"
           htmlFor="grid-password">
@@ -178,7 +185,7 @@ export default function Login() {
           placeholder="Enter your name..."
           required
         />
-      </div>
+      </div> */}
       <div className="relative w-full mb-3">
         <label
           className="flex items-center text-slate-500 text-xs font-semibold mb-2"

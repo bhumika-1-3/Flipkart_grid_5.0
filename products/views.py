@@ -207,10 +207,15 @@ class RedeemCouponsAPI(mixins.CreateModelMixin, mixins.ListModelMixin, generics.
         user = request.user
         try:
             coupon = Coupon.objects.get(code=request.data['code'])
-            user_coupon = UserCoupon.objects.create(
-                user=user,
-                coupon=coupon
-            )
-            return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)
+            try:
+                userAddress = web3.to_checksum_address(user.address)
+                res = Util.send_transaction(web3, factoryContract, 'spendTokens', chain_id, owner_public_key, owner_private_key, userAddress, coupon.price_tokens)
+                user_coupon = UserCoupon.objects.create(
+                    user=user,
+                    coupon=coupon
+                )
+                return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

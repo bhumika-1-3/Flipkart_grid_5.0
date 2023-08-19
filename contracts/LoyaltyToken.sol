@@ -21,19 +21,19 @@ contract LoyaltyToken is ERC20{
         _;
     }
 
-    function setFactoryContractAddress(address payable _factoryContractAddress) public {
+    function setFactoryContractAddress(address payable _factoryContractAddress) public onlyOwner {
         factoryContract = _factoryContractAddress;
     }
 
-    function mintForUser(address user, uint256 amount) public {
+    function mintForUser(address user, uint256 amount) public onlyAuthorized {
         _mint(user, amount * 10**18);
     }
 
-    function burn(address user, uint256 amount) public {
+    function burn(address user, uint256 amount) public onlyAuthorized {
         _burn(user, amount * 10**18);
     }
 
-    function transfer(address to, uint256 amount) public override(ERC20) onlyAuthorized returns (bool) {
+    function transfer(address to, uint256 amount) public onlyAuthorized override(ERC20) returns (bool) {
         return super.transfer(to, amount);
     }
 }

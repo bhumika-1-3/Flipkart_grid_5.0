@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./UserContract.sol";
 import "./VendorContract.sol";
+import "./LoyaltyToken.sol";
 
 contract FactoryContract is Ownable {
 
@@ -15,6 +16,7 @@ contract FactoryContract is Ownable {
     mapping(address => bool) public userContracts;
     mapping(address => address) public deployedVendorContracts;
     mapping(address => bool) public vendorContracts;
+    LoyaltyToken public loyaltyToken;
 
     constructor(
         address _loyaltyTokenAddress,
@@ -22,11 +24,12 @@ contract FactoryContract is Ownable {
         address _vendorContractAddress
     ) Ownable() {
         loyaltyTokenAddress = _loyaltyTokenAddress;
+        loyaltyToken = LoyaltyToken(_loyaltyTokenAddress);
         userContractAddress = _userContractAddress;
         vendorContractAddress = _vendorContractAddress;
     }
 
-    function createUserContract(address _userAddress) external returns (address) {
+    function createUserContract(address _userAddress) external onlyOwner returns (address) {
         require(!userContracts[_userAddress], "user contract already exists");
         address clone = Clones.clone(userContractAddress);
         (bool success, ) = clone.call(
@@ -39,6 +42,7 @@ contract FactoryContract is Ownable {
         require(success, "creation of user contract failed");
         deployedUserContracts[_userAddress] = clone;
         userContracts[_userAddress] = true;
+        loyaltyToken.mintForUser(clone, 100);
         return clone;
     }
 
@@ -46,21 +50,45 @@ contract FactoryContract is Ownable {
         address _vendorAddress,
         uint256 _maxPurchases,
         uint256 _balance
-    ) external returns (address) {
+    ) external onlyOwner returns (address) {
         require(!vendorContracts[_vendorAddress], "vendor contract already exists");
         address clone = Clones.clone(vendorContractAddress);
         (bool success, ) = clone.call(
             abi.encodeWithSignature(
-                "initialize(address,address,uint256,uint256)",
+                "initialize(address,address,uint256)",
                 _vendorAddress,
                 loyaltyTokenAddress,
-                _maxPurchases,
-                _balance
+                _maxPurchases
             )
         );
         require(success, "creation of vendor contract failed");
         deployedVendorContracts[_vendorAddress] = clone;
         vendorContracts[_vendorAddress] = true;
+        loyaltyToken.mintForUser(clone, _balance);
         return clone;
+    }
+
+    function transferFromVendorToUser(address _vendorAddress, address _userAddress, uint _balance) external onlyOwner {
+        require(vendorContracts[_vendorAddress], "Vendor doesn't exist");
+        require(userContracts[_userAddress], "User doesn't exist");
+        require(loyaltyToken.balanceOf(deployedVendorContracts[_vendorAddress])>=_balance, "Vendor doesn't have enough balance");
+        loyaltyToken.burn(deployedVendorContracts[_vendorAddress], _balance);
+        loyaltyToken.mintForUser(deployedUserContracts[_userAddress], _balance);
+    }
+
+    function spendTokens(address _userAddress, uint256 _balance) external onlyOwner {
+        require(userContracts[_userAddress], "User doesn't exist");
+        require(loyaltyToken.balanceOf(deployedUserContracts[_userAddress])>=_balance, "Vendor doesn't have enough balance");
+        loyaltyToken.burn(deployedUserContracts[_userAddress], _balance);
+    }
+
+    function issueTokensUser(address _userAddress, uint256 _balance) external onlyOwner {
+        require(userContracts[_userAddress], "User doesn't exist");
+        loyaltyToken.mintForUser(deployedUserContracts[_userAddress], _balance);
+    }
+
+    function issueTokensVendor(address _vendorAddress, uint256 _balance) external onlyOwner {
+        require(vendorContracts[_vendorAddress], "Vendor doesn't exist");
+        loyaltyToken.mintForUser(deployedVendorContracts[_vendorAddress], _balance);
     }
 }

@@ -7,6 +7,7 @@ import "./VendorContract.sol";
 
 contract UserContract is Initializable{
     address payable public owner;
+    address public deployer;
     
     mapping(address => uint256) orderMapping;
 
@@ -17,8 +18,8 @@ contract UserContract is Initializable{
         address _loyaltyTokenAddress
     ) external initializer {
         owner = payable(_ownerAddress);
+        deployer = tx.origin;
         loyaltyToken = LoyaltyToken(_loyaltyTokenAddress);
-        loyaltyToken.mintForUser(address(this), 100);
     }
 
     modifier onlyOwner() {
@@ -30,8 +31,4 @@ contract UserContract is Initializable{
         return loyaltyToken.balanceOf(address(this));
     }
 
-    function spendTokens(uint256 amount) public onlyOwner {
-        require(getBalance() >= amount, "Insufficient LoyaltyTokens balance");
-        loyaltyToken.burn(address(this), amount);
-    }
 }

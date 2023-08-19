@@ -8,6 +8,7 @@ import "./UserContract.sol";
 contract VendorContract is Initializable {
 
     address payable public owner;
+    address public deployer;
 
     enum Tier { Tier1, Tier2, Tier3, Tier4 }
 
@@ -20,13 +21,12 @@ contract VendorContract is Initializable {
     function initialize(
         address _ownerAddress,
         address _loyaltyTokenAddress,
-        uint256 _maxPurchases,
-        uint256 _balance
+        uint256 _maxPurchases
     ) external initializer {
         owner = payable(_ownerAddress);
         loyaltyToken = LoyaltyToken(_loyaltyTokenAddress);
         maxPurchases = _maxPurchases;
-        loyaltyToken.mintForUser(address(this), _balance);
+        deployer = tx.origin;
     }
 
     modifier onlyOwner() {
@@ -44,11 +44,5 @@ contract VendorContract is Initializable {
 
     function setVendorTier(Tier _vendorTier) public onlyOwner {
         vendorTier = _vendorTier;
-    }
-
-    function issueTokens(address _userContractAddress, uint256 amount) public onlyOwner {
-        require(getBalance() >= amount, "Not enought loyalty tokens");
-        userContract = UserContract(_userContractAddress);
-        loyaltyToken.transfer(address(userContract), amount);
     }
 }

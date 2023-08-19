@@ -66,10 +66,8 @@ class VerifyEmail(APIView):
                 user.active = True
                 if not user.vendor:
                     try:
-                        res = Util.send_transaction(web3, factoryContract, 'createUserContract', chain_id, owner_public_key, owner_private_key, user.address)
-                        print(factoryContract.functions.deployedUserContracts(user.address).call())
-                        print(res['logs'][1]['address'])
-                        user.contract = res['logs'][1]['address']
+                        Util.send_transaction(web3, factoryContract, 'createUserContract', chain_id, owner_public_key, owner_private_key, user.address)
+                        user.contract = factoryContract.functions.deployedUserContracts(user.address).call()
                     except Exception as e:
                         return JsonResponse({'error': 'Could not add user to blockchain'}, status=status.HTTP_400_BAD_REQUEST)
             user.save()

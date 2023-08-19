@@ -5,12 +5,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 User = get_user_model()
-from backend.settings import factoryContract, web3
-from decouple import config
-from accounts.utils import Util
-owner_public_key = config('OWNER_PUBLIC_KEY')
-owner_private_key = config('OWNER_PRIVATE_KEY')
-chain_id = config('CHAIN_ID')
 
 # Create your models here.
 
@@ -46,22 +40,3 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
-
-@receiver(post_save, sender=VendorProfile)
-def set_vendor_profile(sender, instance, **kwargs):
-    products = Product.objects.filter(vendor=instance)
-    weighted_avg = 0
-    weighted_sum = 0
-    weight = 0
-    for product in products.iterator():
-        weighted_sum += (product.price * product.instock)
-        weight += product.instock
-    if weight == 0:
-        weighted_avg = 0
-    else:
-        weighted_avg = weighted_sum / weight
-    try:
-        res = Util.send_transaction(web3, factoryContract, 'issueTokensVendor', chain_id, owner_public_key, owner_private_key, instance.user.address, weighted_avg)
-    except:
-        raise Exception("Error in creating contract on blockchain")

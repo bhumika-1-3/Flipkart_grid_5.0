@@ -76,6 +76,10 @@ function App() {
 					path: "addproduct",
 				},
 				{
+					element: <AddProduct />,
+					path: "addproduct/:id",
+				},
+				{
 					element: <SupercoinsRules />,
 					path: "rules",
 				},

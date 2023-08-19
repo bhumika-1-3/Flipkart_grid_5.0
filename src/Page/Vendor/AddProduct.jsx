@@ -8,6 +8,9 @@ import { useSelector } from 'react-redux';
 import backendURL from '../../BackendURL';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { PanoramaVerticalSelectSharp } from '@mui/icons-material';
 var axios = require('axios');
 var FormData = require('form-data');
 
@@ -39,8 +42,9 @@ const AddProduct = () => {
     const [value, setValue] = useState('');
     const [conveniences, setConveniences] = useState([]);
     const [images, setImages] = useState();
+    const [prevdata, setData] = useState();
     const [showImages, setShowImages] = useState([]);
-
+    const { id } = useParams();
     const handleimages = (e) => {
         const selectedFiles = Array.from(e.target.files);
         // console.log("files", e.target.files)
@@ -55,14 +59,43 @@ const AddProduct = () => {
         setShowImages(newShowImages);
     }
 
-    const [userInput, setUserInput] = useState({
-        name: "",
-        description: "Very Nice",
-        price: 100,
-        quantity: 10,
+
+    var [userInput, setUserInput] = useState({
+        name: prevdata?.name ? prevdata.name : "",
+        description: prevdata?.description ? prevdata.description : "Very Nice",
+        price: prevdata?.price ? prevdata.price : 100,
+        quantity: prevdata?.instock ? prevdata.instock : 10,
         category: "MCol",
     });
+    useEffect(() => {
+        if (id !== undefined) {
+            var config = {
+                method: 'get',
+                url: `${backendURL}products/product-detail/${id}/`,
+                headers: {
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzEzNjkxLCJqdGkiOiI2N2NlNzcwMDJlY2Y0NjhjOWM4NzYxYzVjZDQxZTgyNyIsInVzZXJfaWQiOjE3fQ.VarfwPZtkoEzUSv7N0T5l28aDiHs-D6JsnXNutwKWps',
+                },
+            };
 
+            axios(config)
+                .then(function (response) {
+                    console.log("patch", response.data);
+                    setData(response.data);
+                    setUserInput({
+                        name: prevdata?.name ? prevdata.name : "",
+                        description: prevdata?.description ? prevdata.description : "Very Nice",
+                        price: prevdata?.price ? prevdata.price : 100,
+                        quantity: prevdata?.instock ? prevdata.instock : 10,
+                        category: "MCol",
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }, [id])
+
+    console.log(userInput);
     const onSubmit = () => {
 
         var data = new FormData();
@@ -71,15 +104,32 @@ const AddProduct = () => {
         data.append('price', userInput.price);
         data.append('instock', userInput.quantity);
         data.append('category', 'MCol');
-        data.append('product_img', images[0]);
-        var config = {
-            method: 'post',
-            url: `${backendURL}products/product/`,
-            headers: {
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
-            },
-            data: data
-        };
+
+        images?.length > 0 && data.append('product_img', images[0]);
+
+        var axios = require('axios');
+        var config;
+        if (id !== undefined) {
+            config = {
+                method: 'patch',
+                url: `${backendURL}products/product-detail/${id}/`,
+                headers: {
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzEwOTIwLCJqdGkiOiJmNjE4OGJkZTU3NDI0NzFhYWRlNTUxNGQ5NGRmOWFhYiIsInVzZXJfaWQiOjE3fQ.4aOsWf6BmVDvpkhuwg-j17OLYzTbdhyeFv63xQALnko',
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+        }
+        else {
+            config = {
+                method: 'post',
+                url: `${backendURL}products/product/`,
+                headers: {
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
+                },
+                data: data
+            };
+        }
 
         axios(config)
             .then(function (response) {
@@ -233,6 +283,7 @@ const AddProduct = () => {
                         <input
                             className="px-3 py-3 placeholder-blueGray-300 text-slate-700 placeholder:text-slate-400 bg-gray-50  border borderColor rounded-xl text-sm  focus:outline-none w-full ease-linear transition-all duration-150"
                             type="text"
+                            value="10"
                         />
                         <select
                             // onChange={inputChangeHandler}
@@ -324,6 +375,7 @@ const AddProduct = () => {
                         className="px-4 py-3 shadow text-sm text-gray-500 rounded-xl focus:outline-none"
                         placeholder="/km"
                         type="text"
+                        value={100}
                     />
                     <br />
                     <button

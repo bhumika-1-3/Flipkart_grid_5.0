@@ -47,8 +47,8 @@ const UserNavCard = ({ name, email, logout }) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <DialogTitle id="modal-modal-title" variant="h6" component="p">
-            <BsCoin /> 360 supercoins are on the way
+          <DialogTitle id="modal-modal-title" variant="h6" component="p" className="dialog-title">
+            <BsCoin className="mr-1 inline text-yellow-400 text-lg" /> 360 supercoins are on the way
           </DialogTitle>
           <Box style={{ "padding": "1rem" }}>
             <h1 style={{ fontWeight: "bold" }}>Supercoins T&C :</h1>

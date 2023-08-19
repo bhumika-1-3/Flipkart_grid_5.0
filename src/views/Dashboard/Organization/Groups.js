@@ -282,7 +282,7 @@ const Groups = (props) => {
                   <center>
 
                   <Button children="Restock" onClick={() => {
-                    navigate("/vendor/addproduct")
+                    navigate(`/vendor/addproduct/${i.pk}`)
                   }} restock={true} Icon={MdOutlineAddShoppingCart} className="bg-green-500"></Button>
                   <Button onClick={() => setOpen(!open)} children="View" view={true} Icon={AiOutlineEye} className="bg-green-500"></Button>
                   <Button children="Delete" onClick={() => {

@@ -84,17 +84,17 @@ const ProfileVendor = () => {
                   </div>
                   <div className="justify-center mt-5">
                     <h3 className="text-5xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                      Kavita Kumar
+                      Bhumi Mange
                     </h3>
                     <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                       <CgProfile className="mr-1 inline" />
-                      @tutor01
+                      b13@gmail.com
                     </div>
                     <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                       <RiProfileLine className="mr-1 inline" />
-                      Grades
+                      Tier : 2
                     </div>
                     {/* <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
@@ -118,19 +118,19 @@ const ProfileVendor = () => {
                     <span className="text-3xl font-bold block uppercase tracking-wide text-blueGray-600">
                       220
                     </span>
-                    <span className="text-xl text-blueGray-400">Videos</span>
+                    <span className="text-xl text-blueGray-400">Views</span>
                   </div>
                   <div className="mr-5 p-3 text-center ml-7">
                     <span className="text-3xl font-bold block uppercase tracking-wide text-blueGray-600">
                       10
                     </span>
-                    <span className="text-xl text-blueGray-400">Subjects</span>
+                    <span className="text-xl text-blueGray-400">Sale</span>
                   </div>
                   <div className="lg:mr-4 p-3 text-center">
                     <span className="text-3xl font-bold block uppercase tracking-wide text-blueGray-600">
                       5
                     </span>
-                    <span className="text-xl text-blueGray-400">Years</span>
+                    <span className="text-xl text-blueGray-400">Products</span>
                   </div>
                 </div>
               </div>

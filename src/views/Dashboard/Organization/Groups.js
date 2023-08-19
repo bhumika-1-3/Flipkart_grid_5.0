@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TableContainer,
   Tbody,
@@ -27,6 +27,8 @@ import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { AiOutlineCloseCircle, AiOutlineStar } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+var axios = require('axios');
+
 
 const product = {
   name: 'Basic Tee 6-Pack ',
@@ -68,12 +70,12 @@ const Groups = (props) => {
   const [end, setEnd] = useState("");
   const [open, setOpen] = useState(false);
   const [studentData, setStudentData] = useState(TableData);
-  const data = [
+  const [data, setData] = useState([
     {
       "id": "p001",
       "name": "Example Product 1",
       "weight": "1.5 kg",
-      "size": "Medium",
+      "category": "Medium",
       "price": 199.99,
       "stock": 100,
       "description": "This is an example product description.",
@@ -85,75 +87,30 @@ const Groups = (props) => {
       "tags": ["electronics", "gadgets"],
       "stock_status": "available"
     },
-    {
-      "id": "p002",
-      "name": "Example Product 2",
-      "weight": "2.2 kg",
-      "size": "Large",
-      "price": 349.99,
-      "stock": 50,
-      "description": "Another example product description.",
-      "images": [
-        "https://example.com/product2-image1.jpg",
-        "https://example.com/product2-image2.jpg"
-      ],
-      "supercoins_earned": 30,
-      "tags": ["clothing", "fashion"],
-      "stock_status": "restock"
-    },
-    {
-      "id": "p003",
-      "name": "Example Product 3",
-      "weight": "0.8 kg",
-      "size": "Small",
-      "price": 99.99,
-      "stock": 15,
-      "description": "Yet another example product description.",
-      "images": [
-        "https://example.com/product3-image1.jpg",
-        "https://example.com/product3-image2.jpg"
-      ],
-      "supercoins_earned": 10,
-      "tags": ["electronics", "accessories"],
-      "stock_status": "restock-urgent"
-    },
-    {
-      "id": "p004",
-      "name": "Example Product 4",
-      "weight": "1.0 kg",
-      "size": "Small",
-      "price": 149.99,
-      "stock": 75,
-      "description": "A versatile product for everyday use.",
-      "images": [
-        "https://example.com/product4-image1.jpg",
-        "https://example.com/product4-image2.jpg"
-      ],
-      "supercoins_earned": 15,
-      "tags": ["home", "kitchen"],
-      "stock_status": "available"
-    },
-    {
-      "id": "p005",
-      "name": "Example Product 5",
-      "weight": "3.5 kg",
-      "size": "Large",
-      "price": 599.99,
-      "stock": 3,
-      "description": "Premium quality with advanced features.",
-      "images": [
-        "https://example.com/product5-image1.jpg",
-        "https://example.com/product5-image2.jpg"
-      ],
-      "supercoins_earned": 50,
-      "tags": ["electronics", "premium"],
-      "stock_status": "restock-urgent"
-    }
-    // Add more products...
-  ]
+  ]);
+
+  useEffect(() => {
 
 
+    var config = {
+      method: 'get',
+      url: 'https://backendom5.onrender.com/api/products/product/',
+      headers: {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
+      },
+      data: data
+    };
 
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }, [data])
 
 
   const changeName = (event) => {
@@ -292,33 +249,37 @@ const Groups = (props) => {
         <Table>
           <Thead>
             <Th>#</Th>
-            <Th>Id</Th>
             <Th>Title</Th>
             <Th>Price/unit</Th>
             <Th>Quantity</Th>
             <Th>Stocks</Th>
-            <Th>Supercoins Earned</Th>
+            <Th>Category</Th>
             <Th><center>Action</center></Th>
           </Thead>
           {
             data?.map((i, x) => {
               return <Tbody key={i.id}>
                 <Td>{x + 1}</Td>
-                <Td>{i.id}</Td>
                 <Td>{i.name}</Td>
                 <Td>₹ {i.price}</Td>
-                <Td>{i.stock}</Td>
+                <Td>{i.instock}</Td>
                 <Td>
-                  <Chips
+                  {
+                    i.instock > 10 ? <Chips green={true}>In Stock</Chips> :
+                      i.instock > 0 ? <Chips yellow={true}>Restock</Chips> :
+                        <Chips red={true}>Out of Stock</Chips>
+                  }
+                  {/* <Chips
                     green={i?.stock_status == "available"}
                     red={i?.stock_status == "restock-urgent"}
                     yellow={i?.stock_status == "restock"}
                   >
                     {i.stock_status}
-                  </Chips>
+                  </Chips> */}
                 </Td>
-                <Td><center>{i.supercoins_earned}</center></Td>
+                <Td>{i.category}</Td>
                 <Td>
+                  <center>
 
                   <Button children="Restock" onClick={() => {
                     navigate("/vendor/addproduct")
@@ -332,6 +293,8 @@ const Groups = (props) => {
                       showCancelButton: true,
                     })
                   }} danger={true} Icon={AiOutlineDelete} className="bg-green-500"></Button>
+                  </center>
+
                 </Td>
               </Tbody>
             })

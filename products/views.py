@@ -50,15 +50,29 @@ class IssueTokensAPI(generics.GenericAPIView):
                 for product in products.iterator():
                     weighted_sum += (product.price * product.instock)
                     weight += product.instock
-                if weight == 0:
-                    weighted_avg = 0
+                if(weighted_sum == 0):
+                    return JsonResponse({'status': 'Tokens not issued'}, status=status.HTTP_200_OK)
+                weighted_avg = weighted_sum / weight
+                instance.weighted_avg = weighted_avg
+                instance.save()
+                sum_of_weighted_avg = 0
+                vendors = VendorProfile.objects.all()
+                for vendor in vendors.iterator():
+                    sum_of_weighted_avg += vendor.weighted_avg
+                vendor_count = len(vendors)
+                if(vendor_count < 4):
+                    total_no_of_tokens = (sum_of_weighted_avg * 0.01) / vendor_count
                 else:
-                    weighted_avg = weighted_sum / weight
-                try:
-                    final_token_count = math.floor(weighted_avg/100)
-                    res = Util.send_transaction(web3, factoryContract, 'issueTokensVendor', chain_id, owner_public_key, owner_private_key, instance.user.address, final_token_count)
-                except Exception as e:
-                    raise Exception("Error in creating contract on blockchain")
+                    total_no_of_tokens = (sum_of_weighted_avg * 0.2) / vendor_count
+                final_token_count = (weighted_avg * total_no_of_tokens) / sum_of_weighted_avg
+                final_token_count = math.floor(final_token_count)
+                print(final_token_count)
+            try:
+                res = Util.send_transaction(web3, factoryContract, 'issueTokensVendor', chain_id, owner_public_key, owner_private_key, instance.user.address, final_token_count)
+                print(res)
+            except Exception as e:
+                print(e)
+                raise Exception("Error in creating contract on blockchain")
             return JsonResponse({'status': 'Tokens issued'}, status=status.HTTP_200_OK)
         else:
             return JsonResponse({'error': 'User is not a vendor'}, status=status.HTTP_400_BAD_REQUEST)

@@ -21,6 +21,7 @@ class VendorProfile(models.Model):
     vendor_tier = models.PositiveIntegerField(blank=True, null=True)
     max_purchases = models.PositiveIntegerField(blank=True, null=True)
     gst_number = models.CharField(max_length=15, blank=True, null=True)
+    weighted_avg = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
 
     def __str__(self):
         return self.user.firstname + " " + self.user.lastname

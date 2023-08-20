@@ -11,8 +11,32 @@ import {
     Table,
 } from "../../components/Tables/TableStyles";
 import { SectionHeader } from "../../components";
+import axios from "axios";
+import backendURL from "../../BackendURL";
 
 const CustomerProfile = () => {
+    const token = localStorage.getitem('token')
+    const [add,setAdd] = useState("")
+
+    useEffect(() => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${backendURL}accounts/user-profile/`,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setAdd(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
 
     const [role, setRole] = useState("user")
     const data = {
@@ -119,16 +143,16 @@ const CustomerProfile = () => {
                                     </div>
                                     <div className="justify-center mt-5">
                                         <h3 className="text-5xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                                            Bhumi Mange
+                                            {add?.firstname} {add?.lastname}
                                         </h3>
                                         <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                                             <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                                             <CgProfile className="mr-1 inline" />
-                                            b13@gmail.com
+                                            {add?.email}
                                         </div>
                                         <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                                             <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-                                            Referral Used - {data.totalPeopleUsedCode}
+                                            Contract Address - {add?.contract}
                                         </div>
                                     </div>
                                 </div>

@@ -84,18 +84,18 @@ const ProfileVendor = () => {
                   </div>
                   <div className="justify-center mt-5">
                     <h3 className="text-5xl font-semibold leading-normal mb-2 text-blueGray-700 ">
-                      Bhumi Mange
+                      Om Shuklav
                     </h3>
                     <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                       <CgProfile className="mr-1 inline" />
-                      b13@gmail.com
+                      om13@gmail.com
                     </div>
-                    <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    {/* <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                       <RiProfileLine className="mr-1 inline" />
                       Tier : 2
-                    </div>
+                    </div> */}
                     {/* <div className="text-lg leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                       <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
                       <CgProfile className="mr-1 inline" />

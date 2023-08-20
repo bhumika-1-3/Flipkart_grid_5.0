@@ -57,9 +57,10 @@ class VendorProfileAPI(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixin
                 final_token_count = math.floor(final_token_count)
                 print(final_token_count)
                 try:
-                    res = Util.send_transaction(web3, factoryContract, 'createVendorContract', chain_id, owner_public_key, owner_private_key, vendor.user.address, vendor.max_purchases, final_token_count)
+                    vendorAddress = web3.to_checksum_address(vendor.user.address)
+                    res = Util.send_transaction(web3, factoryContract, 'createVendorContract', chain_id, owner_public_key, owner_private_key, vendorAddress, vendor.max_purchases, final_token_count)
                     print(res['logs'])
-                    vendor.user.contract = factoryContract.functions.deployedVendorContracts(vendor.user.address).call()
+                    vendor.user.contract = factoryContract.functions.deployedVendorContracts(vendorAddress).call()
                     vendor.user.save()
                 except Exception as e:
                     print(e)

@@ -38,13 +38,13 @@ const UserNavCard = ({ name, email, logout }) => {
     setCounter(1);
 
     const axios = require('axios');
-    const token = localStorage.getItem('token');
+    const tokentemp = localStorage.getItem('token');
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${backendURL}accounts/token-balance/`,
       headers: { 
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${tokentemp}`
       }
     };
 

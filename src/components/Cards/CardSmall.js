@@ -58,7 +58,7 @@ const CardSmall = ({ props }) => {
 						{code}
 					</p>
 					<p className="font-normal dark:text-zinc-300 text-slate-900 font-sans">
-						<Button onClick={handleRedeem}>Redeem</Button>
+						{/* <Button onClick={handleRedeem}>Redeem</Button> */}
 					</p>
 				</div>
 			</div>

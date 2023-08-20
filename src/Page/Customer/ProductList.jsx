@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { Button, Button2, Modal } from "../../components";
+import { Button, Button2, InputTag, Modal } from "../../components";
 import { Transition } from '@headlessui/react'
 import { Fragment, useState, React, useEffect } from 'react'
 import { RxCrossCircled } from "react-icons/rx"
@@ -16,6 +16,8 @@ import { BsCheck } from "react-icons/bs"
 import { BiChevronUp } from "react-icons/bi"
 import Drop from "../../views/Auth/Drop";
 import backendURL from "../../BackendURL";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const productCart = [
     {
@@ -24,7 +26,7 @@ const productCart = [
         href: '#',
         imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
-        price: '$35',
+        price: '₹350',
         color: 'Black',
     },
     {
@@ -33,7 +35,7 @@ const productCart = [
         href: '#',
         imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
-        price: '$35',
+        price: '₹250',
         color: 'Black',
     },
 ]
@@ -118,7 +120,7 @@ export default function ProductList() {
             method: 'get',
             maxBodyLength: Infinity,
             url: `${backendURL}products/all-products/`,
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${token}`
             }
         };
@@ -137,7 +139,7 @@ export default function ProductList() {
             <div className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
                 <h2 className={`text-2xl font-bold tracking-tight  ${currentTheme == "dark" ? "text-gray-200" : "text-gray-900"} `}>Trending Products</h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 m-5 sm:m-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 m-5 sm:m-10">
                     {products.map((product) => (
                         <ItemCard props={product} />
 
@@ -176,7 +178,39 @@ function ItemCard({ props }) {
         { name: 'Hellen Schmidt' },
     ]
     const [selected, setSelected] = useState(people[0]);
+    const [finalamount, setFinalAmount] = useState(600);
+    const [discount, setDiscount] = useState(0);
+    const [code, setCode] = useState("");
     console.log(props);
+
+    const handleRedeem = () => {
+        const axios = require('axios');
+        let data = JSON.stringify({
+            "code": code
+        });
+        const token = localStorage.getItem('token');
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${backendURL}products/redeem-coupon/`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setDiscount(response.data.discount);
+                setFinalAmount(price - response.data.discount);
+            })
+            .catch((error) => {
+                toast("Invalid Coupon Code")
+                console.log(error);
+            });
+    }
     return (
         <div
             className="flex flex-col p-2 border hover:scale-105 bg-white hover:bg-slate-50 cursor-pointer  justify-center items-start    border-slate-100 "
@@ -217,15 +251,8 @@ function ItemCard({ props }) {
                 <div className="my-auto"></div>
 
                 <h1 className="text-2xl font-semibold py-2">
-                    {/* ${e.price}{" "} */}${price}
-                    <span className="line-through text-base text-slate-500 font-normal px-3">
-                        {(price / 100) * 12.96 + price}
-                        {/* 879 */}
-                    </span>
-                    <span className=" text-base text-red-500 font-medium">
-                        {(price + price * 0.36)}
-                        {/* {discountPercentage}%OFF */}
-                    </span>
+                    {/* ${e.price}{" "} */}₹{price}
+
                 </h1>
 
                 <h1 className="text-sm text-slate-400">10% Off on Select Cards</h1>
@@ -377,7 +404,7 @@ function ItemCard({ props }) {
                                                     </h3>
                                                     <p className="ml-4">{product.price}</p>
                                                 </div>
-                                                {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
+                                                <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                             </div>
                                             <div className="flex flex-1 items-end justify-between text-sm">
                                                 <p className="text-gray-500">Qty {product.quantity}</p>
@@ -394,44 +421,47 @@ function ItemCard({ props }) {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="items-end justify-between text-sm mt-2">
-                                                <p className="text-gray-500">Coupons available </p>
-                                                <Drop/>
-                                                {/* <select
-                                                    // onChange={inputChangeHandler}
-                                                    name="role"
-                                                    type="text"
-                                                    class="select"
-                                                    className="px-3 py-3 placeholder-blueGray-300 text-slate-700 placeholder:text-slate-400 bg-gray-50  border borderColor rounded-xl text-sm  focus:outline-none w-full ease-linear transition-all duration-150"
-                                                >
-                                                    <option value="admin" className="rounded-xl text-sm">Admin</option>
-                                                    <option value="creator">Creator</option>
-                                                    <option value="user">User</option>
-                                                </select> */}
-                                            </div>
+
                                         </div>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     </div>
-
+                    <div className="items-end justify-between text-sm mt-2">
+                        <Link to={"/customer/coupons/"}>
+                            <p className="text-gray-500 underline">Coupons: </p>
+                        </Link>
+                        <input
+                            name="coupon"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            type="text"
+                            className="px-3 py-3 placeholder-blueGray-300 text-slate-700 placeholder:text-slate-400 bg-gray-50  border borderColor rounded-xl text-sm  focus:outline-none w-full ease-linear transition-all duration-150"
+                            placeholder="Enter Code..."
+                            required
+                        />
+                        {
+                            discount > 0 ? <p className="text-gray-500">Discount: ₹{discount}</p> : <></>
+                        }
+                    </div>
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-gray-900">
                             <p>Subtotal</p>
-                            <p>$262.00</p>
+                            <p>₹{finalamount}</p>
                         </div>
                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                         <div className="mt-6">
-                            <a
-                                href="##"
+                            <button
+
+                                onClick={handleRedeem}
                                 className={`${currentTheme
                                     ? colors.bg[currentTheme].dark
                                     : "bg-purple-800 active:bg-purple-700"
                                     } flex items-center cursor-pointer justify-center rounded-md border border-transparent dark:bg-purple-800 dark:active:bg-purple-700 px-6 py-3 text-base font-medium text-white shadow-sm`}
                             >
                                 Checkout
-                            </a>
+                            </button>
                         </div>
 
                     </div>

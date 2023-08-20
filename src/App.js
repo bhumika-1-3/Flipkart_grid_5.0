@@ -30,6 +30,7 @@ import CoinExclusive from "./Page/Customer/CoinExclusive"
 import MoreDetails from "./Page/Vendor/MoreDetails"
 import Challenges from "./Page/Customer/Challenges"
 import Coupons from "./Page/Customer/Coupons"
+import CustomerProfile from "./Page/Customer/CustomerProfile"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -102,7 +103,7 @@ function App() {
 					path: "products",
 				},
 				{
-					element: <Profile />,
+					element: <CustomerProfile />,
 					path: "profile",
 				},
 				{

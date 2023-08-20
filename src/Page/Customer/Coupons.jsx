@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CardSmall, TransitionBtoT,SubHeading } from '../../components'
+import { CardSmall, TransitionBtoT, SubHeading } from '../../components'
 import backendURL from '../../BackendURL';
 const SuggestData = [
     {
@@ -120,7 +120,7 @@ const Coupons = () => {
             method: 'get',
             maxBodyLength: Infinity,
             url: `${backendURL}products/redeem-coupon/`,
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${token}`
             }
         };
@@ -137,7 +137,10 @@ const Coupons = () => {
 
     return (
         <div>
-        <SubHeading>Coupons</SubHeading>
+            <SubHeading>Coupons</SubHeading>
+            {
+                (data == null || data?.length == 0)  && <div className="text-center">No Coupons Available</div>
+            }
             {data?.map((item, idx) => (
                 <TransitionBtoT key={idx}>
                     <CardSmall props={item}></CardSmall>

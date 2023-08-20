@@ -253,7 +253,21 @@ export default function Sidebar() {
               }
               {!temp ? (
                 <span>
-
+                  <li key="user">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      // to="/admin/organizations">
+                      to="profile">
+                      <AiFillSchedule className="w-5 h-5 mr-2" />
+                      Profile
+                    </NavLink>
+                  </li>
+                  <h6 className="max-w-fit text-slate-500 text-sm capitalize font-bold block px-2 pb-2 border-b-2 border-b-slate-400 dark:border-b-slate-500 mb-2 mt-4">
+                    General
+                  </h6>
                   <li key="home">
                     <NavLink
                       className={({ isActive }) =>

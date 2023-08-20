@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { Button, Button2, Modal } from "../../components";
 import { Transition } from '@headlessui/react'
-import { Fragment, useState, React } from 'react'
+import { Fragment, useState, React, useEffect } from 'react'
 import { RxCrossCircled } from "react-icons/rx"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,6 +15,7 @@ import { Listbox } from '@headlessui/react'
 import { BsCheck } from "react-icons/bs"
 import { BiChevronUp } from "react-icons/bi"
 import Drop from "../../views/Auth/Drop";
+import backendURL from "../../BackendURL";
 
 const productCart = [
     {
@@ -107,7 +108,30 @@ function PaperComponent(props) {
 }
 
 export default function ProductList() {
-    const { currentTheme, colors } = useSelector((state) => state.theme)
+    const { currentTheme, colors } = useSelector((state) => state.theme);
+    const [products, setProducts] = useState(productCart);
+
+    useEffect(() => {
+        const axios = require('axios');
+        const token = localStorage.getItem('token');
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${backendURL}products/all-products/`,
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setProducts(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
     return (
         <div className={` ${currentTheme ? "dark:bg-gray-800" : "bg-white"} p-3`}>
             <div className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -128,17 +152,11 @@ function ItemCard({ props }) {
     const { currentTheme, colors } = useSelector((state) => state.theme)
     const [open, setOpen] = useState(false)
     const {
-        id,
+        pk,
         name,
-        color,
+        description,
         price,
-        // discountPercentage,
-        // rating,
-        //   stock,
-        //   brand,
-        //   category,
-        //   thumbnail,
-        imageSrc,
+        product_img,
     } = props;
     var rating = 4;
 
@@ -157,17 +175,15 @@ function ItemCard({ props }) {
         { name: 'Tanya Fox' },
         { name: 'Hellen Schmidt' },
     ]
-    const [selected, setSelected] = useState(people[0])
+    const [selected, setSelected] = useState(people[0]);
+    console.log(props);
     return (
         <div
             className="flex flex-col p-2 border hover:scale-105 bg-white hover:bg-slate-50 cursor-pointer  justify-center items-start    border-slate-100 "
         >
             <div className="w-full relative">
                 <img
-                    src={
-                        imageSrc ??
-                        "https://www.intlmag.org/global_graphics/default-store-350x350.jpg"
-                    }
+                    src={product_img}
                     alt="product"
                     layout="fill" // required
                     objectFit="cover"
@@ -178,8 +194,7 @@ function ItemCard({ props }) {
             <div className="p-3">
                 <h1 className="text-xl font-base ">{name ?? "Item name"}</h1>
                 <h1 className="text-sm line-clamp-2 py-1 font-base ">
-                    {color ??
-                        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam          incidunt ullam quos est voluptatem, hic necessitatibus nam corporis          dolor animi quod tenetur earum eligendi nemo suscipit sapiente modi          obcaecati illo quasi, omnis reiciendis accusamus consequuntur harum          tempora? Iste unde adipisci debitis molestiae ratione. Laudantium          cumque, molestiae eveniet aspernatur perspiciatis recusandae."}
+                    {description}
                 </h1>
                 <h1 className="text-sm font-semibold flex flex-row text-blue-500">
                     {[...Array(Math.floor(rating))].map((e, i) => (

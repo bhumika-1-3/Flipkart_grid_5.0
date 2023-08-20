@@ -142,18 +142,17 @@ export default function MoreDetails() {
 
 
         var data = JSON.stringify({
-            "user": "parthshukla@gmail.com",
-            "vendor_tier": vendor,
             "max_purchases": userInput.maxp,
             "gst_number": userInput.gst,
         });
 
         console.log(data);
+        const token = localStorage.getItem('token');
         var config = {
             method: 'post',
             url: `${backendURL}accounts/vendor-profile/`,
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNDQ5NzUyLCJpYXQiOjE2OTIxOTA1NTIsImp0aSI6Ijk4ODJlZGM0YTA3MTQ5ODZiYjE3Zjg3ZTE1OWQ4OGVjIiwidXNlcl9pZCI6M30.fsK5CJ_6d4TQodR0GI3GZ-NvMsSvT2s7f5v608SoScc',
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             data: data
@@ -235,27 +234,6 @@ export default function MoreDetails() {
                     placeholder="Enter your pancard number..."
                     required
                 />
-            </div>
-            <div className="relative w-full mb-3">
-                <label
-                    className="flex items-center text-slate-500 text-xs font-semibold mb-2"
-                    htmlFor="grid-password"
-                >
-                    <HiUserCircle className="mr-1" />
-                    Select Tier
-                </label>
-                <select
-                    onChange={inputChangeHandlerVendor}
-                    name="role"
-                    type="number"
-                    class="select"
-                    className="px-3 py-3 placeholder-blueGray-300 text-slate-700 placeholder:text-slate-400 bg-gray-50  border borderColor rounded-xl text-sm  focus:outline-none w-full ease-linear transition-all duration-150"
-                >
-                    <option value={1}>Tier 1</option>
-                    <option value={2}>Tier 2</option>
-                    <option value={3}>Tier 3</option>
-                    <option value={4}>Tier 4</option>
-                </select>
             </div>
             {userInput.role === "creator" && (
                 <div className="flex">

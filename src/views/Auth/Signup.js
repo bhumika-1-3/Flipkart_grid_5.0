@@ -224,6 +224,7 @@ export default function Signup() {
     { href: "/sign-out", label: "Sign out" },
   ];
 
+  console.log(accountAddress);
 
   const signupHandler = (e) => {
     e.preventDefault();
@@ -278,9 +279,10 @@ export default function Signup() {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        
         var configemailverify = {
           method: 'get',
-          url: `${backendURL}accounts/email-verify/?token=${response.data.token}`,
+          url: `${backendURL}accounts/email-verify/?token=${JSON.stringify(response.data.token)}`,
           headers: {}
         };
 

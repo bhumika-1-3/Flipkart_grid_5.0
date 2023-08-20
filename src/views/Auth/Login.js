@@ -112,17 +112,12 @@ export default function Login() {
     // else navigate("/customer/profile/")
     axios(config)
       .then(function (response) {
-        const vendor = localStorage.getItem("vendor");
+        const vendor = response?.data?.vendor;
         toast("Successful!");
         console.log(JSON.stringify(response.data));
-        // localStorage.setItem("role", response?.data?.role);
-        // localStorage.setItem("dataall", response?.data);
-
-        // if (response.data.detail == false) {
-        //   toast("Verification Pending");
-        // }
-        // else
-        if (vendor == "true")
+        localStorage.setItem("token", response?.data?.access);
+        localStorage.setItem("vendor", response?.data?.vendor);
+        if (vendor == true)
           navigate("/vendor/profile")
         else navigate("/customer/products")
       })

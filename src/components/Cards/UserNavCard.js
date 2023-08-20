@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { Typography, Modal, Box, DialogTitle, List, ListItem, ListItemText } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import { BsCoin } from "react-icons/bs";
+import backendURL from "../../BackendURL";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 const UserNavCard = ({ name, email, logout }) => {
+
+  const [token, setToken] = useState(null);
   const [counter, setCounter] = useState(0);
   const [open, setOpen] = useState(false)
   const googleTranslateElementInit = () => {
@@ -32,6 +35,26 @@ const UserNavCard = ({ name, email, logout }) => {
       setCounter(2);
     }
     setCounter(1);
+
+    const axios = require('axios');
+    const token = localStorage.getItem('token');
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${backendURL}accounts/token-balance/`,
+      headers: { 
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      setToken(response?.data?.balance);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }, [counter]);
 
   return (
@@ -39,7 +62,7 @@ const UserNavCard = ({ name, email, logout }) => {
       <div className="flex items-center mr-3">
         <img onClick={() => setOpen(true)} className="cursor-pointer" width={"90"} src="https://www.pngitem.com/pimgs/m/3-31658_flipkart-supercoin-hd-png-download.png" alt="logo" />
         <h4 className="text-slate-700 dark:text-slate-200 font-semibold">
-          1000
+          {token}
         </h4>
         <Dialog
           open={open}

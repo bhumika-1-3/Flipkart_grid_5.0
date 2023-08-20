@@ -28,6 +28,7 @@ import { AiOutlineCloseCircle, AiOutlineStar } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import backendURL from "../../../BackendURL";
 var axios = require('axios');
 
 
@@ -91,13 +92,12 @@ const Groups = (props) => {
   ]);
 
   useEffect(() => {
-
-
+    const token = localStorage.getItem('token');
     var config = {
       method: 'get',
-      url: 'https://backendom5.onrender.com/api/products/product/',
+      url: `${backendURL}products/product/`,
       headers: {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
+        'Authorization': `Bearer ${token}`,
       },
       data: data
     };
@@ -114,7 +114,7 @@ const Groups = (props) => {
         console.log(error);
       });
 
-  }, [data])
+  }, [])
 
 
   const changeName = (event) => {

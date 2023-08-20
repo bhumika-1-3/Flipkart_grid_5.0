@@ -57,11 +57,12 @@ const UserDashboardData = () => {
   }]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     let config = {
       method: 'get',
       url: 'https://backend-r677breg7a-uc.a.run.app/api/bank/account/',
       headers: { 
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwMjAwNjU3LCJpYXQiOjE2ODk5NDE0NTcsImp0aSI6IjM4OTgzY2RiN2E4NjQ2ZDBhODI0NWYxODllNjEzMmM1IiwidXNlcl9pZCI6MX0.Y8xupTUlhL6X506p5uM0-pVeHDZdCmlhXETfqqa44ag'
+        'Authorization': `Bearer ${token}`
       }
     };
     axios

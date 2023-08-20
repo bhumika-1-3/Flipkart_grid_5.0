@@ -69,11 +69,12 @@ const AddProduct = () => {
     });
     useEffect(() => {
         if (id !== undefined) {
+            const token = localStorage.getItem('token');
             var config = {
                 method: 'get',
                 url: `${backendURL}products/product-detail/${id}/`,
                 headers: {
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzEzNjkxLCJqdGkiOiI2N2NlNzcwMDJlY2Y0NjhjOWM4NzYxYzVjZDQxZTgyNyIsInVzZXJfaWQiOjE3fQ.VarfwPZtkoEzUSv7N0T5l28aDiHs-D6JsnXNutwKWps',
+                    'Authorization': `Bearer ${token}`,
                 },
             };
 
@@ -109,12 +110,13 @@ const AddProduct = () => {
 
         var axios = require('axios');
         var config;
+        const token = localStorage.getItem('token');
         if (id !== undefined) {
             config = {
                 method: 'patch',
                 url: `${backendURL}products/product-detail/${id}/`,
                 headers: {
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzEwOTIwLCJqdGkiOiJmNjE4OGJkZTU3NDI0NzFhYWRlNTUxNGQ5NGRmOWFhYiIsInVzZXJfaWQiOjE3fQ.4aOsWf6BmVDvpkhuwg-j17OLYzTbdhyeFv63xQALnko',
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 data: data
@@ -125,7 +127,7 @@ const AddProduct = () => {
                 method: 'post',
                 url: `${backendURL}products/product/`,
                 headers: {
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyNzAwODY2LCJqdGkiOiI1ZjI4OTZhOGQyNjA0ZjI1OWEzNDQ1MGUxOTNiNTZlNSIsInVzZXJfaWQiOjE3fQ.dCoGDi_Xr889f-jr7isUMD9vbXnqZG0VghcvhSMGkUg',
+                    'Authorization': `Bearer ${token}`,
                 },
                 data: data
             };

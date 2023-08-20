@@ -28,7 +28,8 @@ from .serializers import (
     LoginSerializer,
     ResetPasswordEmailRequestSerializer,
     SetNewPasswordSerializer,
-    LogoutSerializer
+    LogoutSerializer,
+    UserProfileSerializer
 )
 from products.models import VendorProfile
 
@@ -37,7 +38,7 @@ owner_public_key = config('OWNER_PUBLIC_KEY')
 owner_private_key = config('OWNER_PRIVATE_KEY')
 chain_id = config('CHAIN_ID')
 
-class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class SignUp(mixins.CreateModelMixin, generics.GenericAPIView):
     
     serializer_class = UserSerializer
 
@@ -47,6 +48,15 @@ class SignUp(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPI
             token = serializer1.save_user(serializer1.data)
             return JsonResponse({'status': 'created', 'token': str(token)}, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class UserProfileAPI(generics.GenericAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated,]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer = UserProfileSerializer(user)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
 
 class VerifyEmail(APIView):
 

@@ -46,6 +46,10 @@ class UserSerializer(serializers.ModelSerializer):
         Util.send_email(data)
         return token
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'firstname', 'lastname', 'vendor', 'address', 'contract']
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
     token = serializers.CharField(max_length=666)

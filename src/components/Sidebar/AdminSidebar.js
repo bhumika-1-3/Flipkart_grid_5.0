@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { FaUserTie, FaBook,FaMedal } from "react-icons/fa";
+import { FaUserTie, FaBook, FaMedal } from "react-icons/fa";
 import {
   HiUserGroup,
   HiMenuAlt2,
@@ -253,6 +253,7 @@ export default function Sidebar() {
               }
               {!temp ? (
                 <span>
+
                   <li key="home">
                     <NavLink
                       className={({ isActive }) =>
@@ -284,6 +285,17 @@ export default function Sidebar() {
                       to="challenges">
                       <FaMedal className="w-5 h-5 mr-2" />
                       Challenges
+                    </NavLink>
+                  </li>
+                  <li key="coupons">
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? activeLink : inActiveLink
+                      }
+                      onClick={() => setCollapseShow(false)}
+                      to="coupons">
+                      <RiCoupon3Line className="w-5 h-5 mr-2" />
+                      Coupons
                     </NavLink>
                   </li>
                   {/* <li key="groups">

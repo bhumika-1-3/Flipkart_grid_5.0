@@ -12,7 +12,7 @@ import "aos/dist/aos.css";
 // import Finan2 from "./views/Dashboard/Finance/Finan2"
 import Signup from "./views/Auth/Signup"
 import More from "./views/Auth/MoreDetails"
-import AlanHooks from "./AlanHooks"
+// import AlanHooks from "./AlanHooks"
 import {
 	createBrowserRouter,
 	RouterProvider,
@@ -29,6 +29,7 @@ import ForgotPassword from "./views/Auth/ForgotPassword"
 import CoinExclusive from "./Page/Customer/CoinExclusive"
 import MoreDetails from "./Page/Vendor/MoreDetails"
 import Challenges from "./Page/Customer/Challenges"
+import Coupons from "./Page/Customer/Coupons"
 // import PysQuestions from "./Questionaire"
 
 function App() {
@@ -55,7 +56,7 @@ function App() {
 			path: "/forgotpassword",
 			element: <ForgotPassword />
 		},
-	
+
 		{
 			path: "/vendor",
 			element: <DashboardLayout />,
@@ -111,6 +112,10 @@ function App() {
 				{
 					element: <Challenges />,
 					path: "challenges",
+				},
+				{
+					element: <Coupons />,
+					path: "coupons",
 				}
 			]
 		}

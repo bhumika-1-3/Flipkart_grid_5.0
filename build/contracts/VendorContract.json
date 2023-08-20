@@ -5476,8 +5476,8 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x12Ba75C22aC7191c6d122b5d3ae9bFC7fa04C8AA",
-      "transactionHash": "0x77ca61a7c9d6e62e0faa682c66b78f76488a64f6655f86d86dd92de1041d3eaf"
+      "address": "0xbCdC5Ba29ac34Eea3186FeD5988986cfBA50eb69",
+      "transactionHash": "0xbd0e79268757e5383954c389887cfc9e33e170a8d4c548bbc0153a163df0de66"
     },
     "5777": {
       "events": {},
@@ -5493,7 +5493,7 @@
     }
   },
   "schemaVersion": "3.4.15",
-  "updatedAt": "2023-08-20T07:13:06.113Z",
+  "updatedAt": "2023-08-20T13:39:26.106Z",
   "devdoc": {
     "events": {
       "Initialized(uint8)": {

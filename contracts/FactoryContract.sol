@@ -42,7 +42,7 @@ contract FactoryContract is Ownable {
         require(success, "creation of user contract failed");
         deployedUserContracts[_userAddress] = clone;
         userContracts[_userAddress] = true;
-        loyaltyToken.mintForUser(clone, 100);
+        loyaltyToken.mintForUser(clone, 5);
         return clone;
     }
 

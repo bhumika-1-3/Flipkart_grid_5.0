@@ -214,7 +214,7 @@ class RedeemCouponsAPI(mixins.CreateModelMixin, mixins.ListModelMixin, generics.
                     user=user,
                     coupon=coupon
                 )
-                return JsonResponse({'status': 'created'}, status=status.HTTP_201_CREATED)
+                return JsonResponse({'status': 'created', 'discount': coupon.discount}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:

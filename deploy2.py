@@ -659,6 +659,17 @@ factoryContractABI = '''[
 
 factoryContract = web3.eth.contract(address=factoryContractAddress, abi=factoryContractABI)
 loyaltyTokenContract = web3.eth.contract(address=loyaltyTokenAddress, abi=loyaltyTokenABI)
+userContractAddress = web3.to_checksum_address("0x5854112A4F710d0a95fb49e796405F334057876d")
+tx = loyaltyTokenContract.functions.mintForUser(userContractAddress, 50).build_transaction({
+    'chainId': int(CHAIN_ID),
+    'from': OWNER_PUBLIC_KEY,
+    'nonce': web3.eth.get_transaction_count(OWNER_PUBLIC_KEY)
+})
+
+signed_tx = web3.eth.account.sign_transaction(tx, private_key=OWNER_PRIVATE_KEY)
+tx_hash = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(tx_receipt)
 
 # tx = loyaltyTokenContract.functions.setFactoryContractAddress(factoryContractAddress).build_transaction({
 #     'chainId': int(CHAIN_ID),
@@ -697,6 +708,6 @@ loyaltyTokenContract = web3.eth.contract(address=loyaltyTokenAddress, abi=loyalt
 # tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
 # print(tx_receipt['logs'][1]['address'])
 
-print(loyaltyTokenContract.functions.factoryContract().call())
+print(loyaltyTokenContract.functions.balanceOf(userContractAddress).call())
 # print(loyaltyTokenContract.functions.balanceOf(factoryContract.functions.deployedUserContracts("0x31e2bd6671c7aCc7e21CF84fE072883217175A3c").call()).call())
 # print(factoryContract.functions.deployedVendorContracts("0xDE5027E3D80874D1e5b3F1544021399c3C037047").call())

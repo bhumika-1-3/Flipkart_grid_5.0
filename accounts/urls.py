@@ -6,7 +6,8 @@ from .views import (
     LogoutAPIView,
     RequestPasswordResetEmail,
     PasswordTokenCheckAPI,
-    SetNewPasswordAPIView
+    SetNewPasswordAPIView,
+    TokenBalanceAPI
 )
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('signup/', SignUp.as_view(), name='Signup'),
     path('email-verify/', VerifyEmail.as_view(), name="EmailVerification"),
     path('login/', Login.as_view(), name="Login"),
+    path('token-balance/', TokenBalanceAPI.as_view(), name="TokenBalance"),
     path('logout/', LogoutAPIView.as_view(), name="logout"),
     path('token-refresh/',TokenRefreshView.as_view(),name="RefreshToken"),
     path('request-reset-email/', RequestPasswordResetEmail.as_view(),name="request-reset-email"),

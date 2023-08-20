@@ -2,307 +2,11 @@ from web3 import Web3
 from decouple import config
 
 INFURA_ENDPOINT = config('INFURA_ENDPOINT')
+CHAIN_ID = config('CHAIN_ID')
 OWNER_PRIVATE_KEY = config('OWNER_PRIVATE_KEY')
 OWNER_PUBLIC_KEY = config('OWNER_PUBLIC_KEY')
 
 web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
-factoryContractAddress = web3.to_checksum_address('0x13eE69E97F50f54219D42A7453dfBFB94a88A8ea')
-factoryContractABI = '''[
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_loyaltyTokenAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_userContractAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_vendorContractAddress",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipTransferred",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "deployedUserContracts",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "deployedVendorContracts",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "loyaltyToken",
-      "outputs": [
-        {
-          "internalType": "contract LoyaltyToken",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "renounceOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "userContracts",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "vendorContracts",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_userAddress",
-          "type": "address"
-        }
-      ],
-      "name": "createUserContract",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_vendorAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_maxPurchases",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_balance",
-          "type": "uint256"
-        }
-      ],
-      "name": "createVendorContract",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_vendorAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_userAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_balance",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferFromVendorToUser",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_userAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_balance",
-          "type": "uint256"
-        }
-      ],
-      "name": "spendTokens",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_userAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_balance",
-          "type": "uint256"
-        }
-      ],
-      "name": "issueTokensUser",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_vendorAddress",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_balance",
-          "type": "uint256"
-        }
-      ],
-      "name": "issueTokensVendor",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-]'''
-factoryContract = web3.eth.contract(address=factoryContractAddress, abi=factoryContractABI)
 loyaltyTokenABI = '''[
     {
       "inputs": [],
@@ -655,16 +359,310 @@ loyaltyTokenABI = '''[
       "type": "function"
     }
 ]'''
-loyaltyTokenAddress = web3.to_checksum_address('0x3944f7571a9427248c656950705F4595a1aA08c8')
+loyaltyTokenAddress = web3.to_checksum_address('0x7CbB169a55c861cb3f8Ea6682512F27167F36FAB')
+factoryContractAddress = web3.to_checksum_address('0x9d81Fc738d6E7Bc831aa79606a515543a9C5e73A')
+factoryContractABI = '''[
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_loyaltyTokenAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_userContractAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_vendorContractAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "deployedUserContracts",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "deployedVendorContracts",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "loyaltyToken",
+      "outputs": [
+        {
+          "internalType": "contract LoyaltyToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userContracts",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "vendorContracts",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userAddress",
+          "type": "address"
+        }
+      ],
+      "name": "createUserContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vendorAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_maxPurchases",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "createVendorContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vendorAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_userAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFromVendorToUser",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "spendTokens",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_userAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "issueTokensUser",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vendorAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_balance",
+          "type": "uint256"
+        }
+      ],
+      "name": "issueTokensVendor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+]'''
 
-loyaltyTokenContract = web3.eth.contract(address=loyaltyTokenAddress, abi=loyaltyTokenABI)
 factoryContract = web3.eth.contract(address=factoryContractAddress, abi=factoryContractABI)
+loyaltyTokenContract = web3.eth.contract(address=loyaltyTokenAddress, abi=loyaltyTokenABI)
 
 # tx = loyaltyTokenContract.functions.setFactoryContractAddress(factoryContractAddress).build_transaction({
-#     'chainId': 5,
+#     'chainId': int(CHAIN_ID),
 #     'from': OWNER_PUBLIC_KEY,
-#     'gas': 3000000,
-#     'gasPrice': web3.to_wei('1', 'gwei'),
 #     'nonce': web3.eth.get_transaction_count(OWNER_PUBLIC_KEY)
 # })
 
@@ -699,5 +697,6 @@ factoryContract = web3.eth.contract(address=factoryContractAddress, abi=factoryC
 # tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
 # print(tx_receipt['logs'][1]['address'])
 
-print(loyaltyTokenContract.functions.balanceOf(factoryContract.functions.deployedUserContracts("0x31e2bd6671c7aCc7e21CF84fE072883217175A3c").call()).call())
+print(loyaltyTokenContract.functions.factoryContract().call())
+# print(loyaltyTokenContract.functions.balanceOf(factoryContract.functions.deployedUserContracts("0x31e2bd6671c7aCc7e21CF84fE072883217175A3c").call()).call())
 # print(factoryContract.functions.deployedVendorContracts("0xDE5027E3D80874D1e5b3F1544021399c3C037047").call())

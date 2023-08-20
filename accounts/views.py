@@ -95,8 +95,22 @@ class Login(generics.GenericAPIView):
             'address': validated_data['user'].address,
             'refresh': str(validated_data['refresh']),
             'access': str(validated_data['access']),
-            'spinwheel': str(validated_data['spinwheel'])
+            'spinwheel': validated_data['spinwheel']
         }, status=status.HTTP_200_OK)
+    
+class TokenBalanceAPI(generics.GenericAPIView):
+    serializer_class = UserSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        contractAddress = None
+        if user.vendor:
+            contractAddress = factoryContract.functions.deployedVendorContracts(user.address).call()
+        else:
+            contractAddress = factoryContract.functions.deployedUserContracts(user.address).call()
+        contract = web3.to_checksum_address(contractAddress)
+        balance = loyaltyToken.functions.balanceOf(contract).call() / 10**18
+        return JsonResponse({'balance': balance}, status=status.HTTP_200_OK)
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):

@@ -31,18 +31,7 @@ class VendorProfileAPI(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixin
             vendor.max_purchases = request.data['max_purchases']
             vendor.gst_number = request.data['gst_number']
             vendor.save()
-        else:
-            return JsonResponse({'error': 'User is not a vendor'}, status=status.HTTP_400_BAD_REQUEST)
-        
-class IssueTokensAPI(generics.GenericAPIView):
-    serializer_class = VendorProfileSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        if user.vendor:
-            instance = VendorProfile.objects.get(user=user.pk)
-            products = Product.objects.filter(vendor=instance.pk)
+            products = Product.objects.filter(vendor=vendor.pk)
             if len(products) > 0:
                 weighted_avg = 0
                 weighted_sum = 0
@@ -53,29 +42,40 @@ class IssueTokensAPI(generics.GenericAPIView):
                 if(weighted_sum == 0):
                     return JsonResponse({'status': 'Tokens not issued'}, status=status.HTTP_200_OK)
                 weighted_avg = weighted_sum / weight
-                instance.weighted_avg = weighted_avg
-                instance.save()
+                vendor.weighted_avg = weighted_avg
+                vendor.save()
                 sum_of_weighted_avg = 0
                 vendors = VendorProfile.objects.all()
                 for vendor in vendors.iterator():
                     sum_of_weighted_avg += vendor.weighted_avg
                 vendor_count = len(vendors)
                 if(vendor_count < 4):
-                    total_no_of_tokens = (sum_of_weighted_avg * 0.01) / vendor_count
+                    total_no_of_tokens = (float(sum_of_weighted_avg) * 0.01) / vendor_count
                 else:
-                    total_no_of_tokens = (sum_of_weighted_avg * 0.2) / vendor_count
-                final_token_count = (weighted_avg * total_no_of_tokens) / sum_of_weighted_avg
+                    total_no_of_tokens = (float(sum_of_weighted_avg) * 0.2) / vendor_count
+                final_token_count = (float(weighted_avg) * total_no_of_tokens) / float(sum_of_weighted_avg)
                 final_token_count = math.floor(final_token_count)
                 print(final_token_count)
-            try:
-                res = Util.send_transaction(web3, factoryContract, 'issueTokensVendor', chain_id, owner_public_key, owner_private_key, instance.user.address, final_token_count)
-                print(res)
-            except Exception as e:
-                print(e)
-                raise Exception("Error in creating contract on blockchain")
+                try:
+                    res = Util.send_transaction(web3, factoryContract, 'createVendorContract', chain_id, owner_public_key, owner_private_key, vendor.user.address, vendor.max_purchases, final_token_count)
+                    print(res['logs'])
+                    vendor.user.contract = factoryContract.functions.deployedVendorContracts(vendor.user.address).call()
+                    vendor.user.save()
+                except Exception as e:
+                    print(e)
+                    raise Exception("Error in creating contract on blockchain")
             return JsonResponse({'status': 'Tokens issued'}, status=status.HTTP_200_OK)
         else:
             return JsonResponse({'error': 'User is not a vendor'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        
+class ProductListAPI(mixins.ListModelMixin, generics.GenericAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Product.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 class ProductAPI(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
 
@@ -143,7 +143,7 @@ class CouponAPI(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.UpdateMod
         try:
             user = self.request.user
             vendor = VendorProfile.objects.get(user=user.pk)
-            queryset = Coupon.objects.filter(vendor=vendor.pk, active=True, expiry_date__gte=dt.today())
+            queryset = Coupon.objects.filter(vendor=vendor.pk)
             return queryset
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

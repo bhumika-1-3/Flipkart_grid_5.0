@@ -71,18 +71,19 @@ class LoginSerializer(serializers.ModelSerializer):
 
         filtered_user_by_email = User.objects.filter(email=email)
         auth_user = auth.authenticate(email=email, password=password)
-        print(auth_user.last_login.date())
-        print(localtime().date())
-        delta = localtime().date() - auth_user.last_login.date()
         spin_wheel = False
-        if delta.days == 1:
-            user_address = web3.to_checksum_address(auth_user.address)
-            if auth_user.login_consecutive == 6:
-                spin_wheel = True
-                print("Tokens issued for 7 days regular login")
-            else:
-                Util.send_transaction(web3, factoryContract, "issueTokensUser", chain_id, owner_public_key, owner_private_key, user_address, 1)
-                print("Tokens issued for 7 days regular login")
+        try:
+            delta = localtime().date() - auth_user.last_login.date()
+            if delta.days == 1:
+                user_address = web3.to_checksum_address(auth_user.address)
+                if auth_user.login_consecutive == 6:
+                    spin_wheel = True
+                    print("Tokens issued for 7 days regular login")
+                else:
+                    Util.send_transaction(web3, factoryContract, "issueTokensUser", chain_id, owner_public_key, owner_private_key, user_address, 1)
+                    print("Tokens issued for 7 days regular login")
+        except:
+            pass
         auth_user.last_login = localtime()
         auth_user.save()
         if not auth_user:

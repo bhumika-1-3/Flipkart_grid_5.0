@@ -181,8 +181,8 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = config('SERVER_EMAIL')
 
 web3 = Web3(Web3.HTTPProvider(INFURA_ENDPOINT))
-loyaltyTokenAddress = web3.to_checksum_address('0x3944f7571a9427248c656950705F4595a1aA08c8')
-factoryContractAddress = web3.to_checksum_address('0x13eE69E97F50f54219D42A7453dfBFB94a88A8ea')
+loyaltyTokenAddress = web3.to_checksum_address('0x7CbB169a55c861cb3f8Ea6682512F27167F36FAB')
+factoryContractAddress = web3.to_checksum_address('0x9d81Fc738d6E7Bc831aa79606a515543a9C5e73A')
 loyaltyTokenABI = '''[
     {
       "inputs": [],

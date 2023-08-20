@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CardSmall, TransitionBtoT,SubHeading } from '../../components'
+import backendURL from '../../BackendURL';
 const SuggestData = [
     {
         "jeans_and_pants_offers": [
@@ -109,12 +110,37 @@ const SuggestData = [
     }
 ]
 const Coupons = () => {
+
+    const [data, setData] = React.useState(null);
+
+    useEffect(() => {
+        const axios = require('axios');
+        const token = localStorage.getItem('token');
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${backendURL}products/redeem-coupon/`,
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(response.data);
+                setData(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [])
+
     return (
         <div>
-        <SubHeading>Coupons :)</SubHeading>
-            {SuggestData?.map((item, idx) => (
+        <SubHeading>Coupons</SubHeading>
+            {data?.map((item, idx) => (
                 <TransitionBtoT key={idx}>
-                    <CardSmall idx={idx + 1} name={item} type='Suggested'></CardSmall>
+                    <CardSmall props={item}></CardSmall>
                 </TransitionBtoT>
             ))}
         </div>

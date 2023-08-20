@@ -39,14 +39,14 @@ export default function Navbar() {
 	// import 'react-wheel-of-prizes/dist/index.css'
 
 	const segments = [
+		'Better luck next time',
+		'won 70 coins',
+		'won 10 coins',
 		'better luck next time',
-		'won 70',
-		'won 10',
+		'won 200 coins',
+		'won 5 coins',
 		'better luck next time',
-		'won 2',
-		'won uber pass',
-		'better luck next time',
-		'won a voucher'
+		'won 100 coins'
 	]
 	const segColors = [
 		'#EE4040',

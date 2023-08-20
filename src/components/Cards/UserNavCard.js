@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Typography, Modal, Box, DialogTitle, List, ListItem, ListItemText } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
 import { BsCoin } from "react-icons/bs";
+import chainperks from "../../assets/img/chainperks.png"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -37,7 +38,7 @@ const UserNavCard = ({ name, email, logout }) => {
   return (
     <div className="px-2 py-1 rounded-md border borderColor bg-white dark:bg-purple_5 flex md:items-center md:flex-row flex-col">
       <div className="flex items-center mr-3">
-        <img onClick={() => setOpen(true)} className="cursor-pointer" width={"90"} src="https://www.pngitem.com/pimgs/m/3-31658_flipkart-supercoin-hd-png-download.png" alt="logo" />
+        <img onClick={() => setOpen(true)} className="cursor-pointer" width={"60"} src={chainperks} alt="logo" />
         <h4 className="text-slate-700 dark:text-slate-200 font-semibold">
           1000
         </h4>

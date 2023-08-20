@@ -236,7 +236,7 @@ export default function MoreDetails() {
                     required
                 />
             </div>
-            <div className="relative w-full mb-3">
+            {/* <div className="relative w-full mb-3">
                 <label
                     className="flex items-center text-slate-500 text-xs font-semibold mb-2"
                     htmlFor="grid-password"
@@ -256,7 +256,7 @@ export default function MoreDetails() {
                     <option value={3}>Tier 3</option>
                     <option value={4}>Tier 4</option>
                 </select>
-            </div>
+            </div> */}
             {userInput.role === "creator" && (
                 <div className="flex">
                     <div className="relative w-full mb-3">

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { MNEMONIC, INFURA_ENDPOINT } = process.env;
+const { MNEMONIC, INFURA_ENDPOINT, POLYGON_ENDPOINT_MUMBAI } = process.env;
 var HDWalletProvider = require("@truffle/hdwallet-provider");
 module.exports = {
     networks: {
@@ -21,6 +21,15 @@ module.exports = {
             // skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
             gas: 4465030,
             gasPrice: 10000000000,
+        },
+        matic: {
+            provider: () =>
+                new HDWalletProvider(
+                    `${MNEMONIC}`,
+                    `${POLYGON_ENDPOINT_MUMBAI}`,
+                ),
+            network_id: 80001, // Polygon's id
+            from: "0x5e2c2f26C25FCe863097A3a2adbeDBeAf24f0365"
         },
     },
     compilers: {

@@ -13955,18 +13955,24 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x3944f7571a9427248c656950705F4595a1aA08c8",
-      "transactionHash": "0x2def1b40ecc05c3a568e4fcc554b1da23d8d21d6a1836df6f6624ed60a3472b9"
+      "address": "0x7CbB169a55c861cb3f8Ea6682512F27167F36FAB",
+      "transactionHash": "0x845e573fb177a7f73e6280adf982da4aa6ca4a6b8651ba578319826a0b5325ad"
     },
     "5777": {
       "events": {},
       "links": {},
       "address": "0x449f237f57B42112dc2c7b2a043b2175630b0ff8",
       "transactionHash": "0x40078a9ca1d6fc0a5da85f60011dfea49b80a85d4b57e3c10f46bec5db0569d0"
+    },
+    "80001": {
+      "events": {},
+      "links": {},
+      "address": "0x4B14305715F7674a486C26Cfb8a28Be96049598b",
+      "transactionHash": "0x3c4f4c1a1583a58346c87179eaf2b515239f09e28297e0c14e983068e634ccd0"
     }
   },
   "schemaVersion": "3.4.15",
-  "updatedAt": "2023-08-19T09:12:26.525Z",
+  "updatedAt": "2023-08-20T07:13:06.101Z",
   "devdoc": {
     "events": {
       "Approval(address,address,uint256)": {

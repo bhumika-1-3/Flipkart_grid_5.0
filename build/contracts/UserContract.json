@@ -3892,18 +3892,24 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0x0d594D586505c99EE3eE569452FFCa12DB0d089B",
-      "transactionHash": "0xb9e839c528c8d41f811341f279953bf7834c494e74590a6ce95ad9f7a926dc5f"
+      "address": "0x1b988f64Fba43092418eb2c306058da435B97375",
+      "transactionHash": "0xb67e55fdad58da89541a373453d38568c97a79b4532651a1bc7433f8a637d9bb"
     },
     "5777": {
       "events": {},
       "links": {},
       "address": "0xFAB23B0ce9ec06407c97724C961D4C84bE858327",
       "transactionHash": "0x2a43f38ee8be16a614e8a46e0250fb20d49f6c4019c0764b93f2821b106f8a31"
+    },
+    "80001": {
+      "events": {},
+      "links": {},
+      "address": "0x7Cd3f78d11f30445f25171cf43512B610CD6852e",
+      "transactionHash": "0x52960e87da5a02b66cb8e3f3727365feb77bdea6d013350e4e9c24d3d95eb178"
     }
   },
   "schemaVersion": "3.4.15",
-  "updatedAt": "2023-08-19T09:12:26.533Z",
+  "updatedAt": "2023-08-20T07:13:06.109Z",
   "devdoc": {
     "events": {
       "Initialized(uint8)": {

@@ -5476,18 +5476,24 @@
     "5": {
       "events": {},
       "links": {},
-      "address": "0xFb3eD6eA836C5975B94d3cD24B26f573d8650C6D",
-      "transactionHash": "0x845e238479ed905af5eecf126549dcb0e87e20b5c9d101a929fb075118c6f289"
+      "address": "0x12Ba75C22aC7191c6d122b5d3ae9bFC7fa04C8AA",
+      "transactionHash": "0x77ca61a7c9d6e62e0faa682c66b78f76488a64f6655f86d86dd92de1041d3eaf"
     },
     "5777": {
       "events": {},
       "links": {},
       "address": "0xd7a91F8dF06eB5A5C6817DF201b30B54FF4664A0",
       "transactionHash": "0x529210516710c18ce8786444fce9506554f7b6c36e94cb3d702830fe443cc00b"
+    },
+    "80001": {
+      "events": {},
+      "links": {},
+      "address": "0xd94Bb66e87c1231E80EDc860C51E00c0Fb94F40b",
+      "transactionHash": "0x679326c240e06963539f2fb3b161e50496582791fd71ad41aca03b1e8023cf51"
     }
   },
   "schemaVersion": "3.4.15",
-  "updatedAt": "2023-08-19T09:12:26.536Z",
+  "updatedAt": "2023-08-20T07:13:06.113Z",
   "devdoc": {
     "events": {
       "Initialized(uint8)": {
